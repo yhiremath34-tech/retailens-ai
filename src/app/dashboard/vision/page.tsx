@@ -137,7 +137,7 @@ export default function VisionPage() {
             <SecondaryButton
               type="button"
               onClick={() => setMode("demo")}
-              className={mode === "demo" ? "border-cyan-500/60 bg-cyan-500/15 text-cyan-200" : ""}
+              className={mode === "demo" ? "border-sky-400 bg-sky-300 text-slate-950 font-semibold hover:bg-sky-400" : ""}
             >
               <Eye className="h-4 w-4" />
               Mode 1: Demo Simulation
@@ -145,7 +145,7 @@ export default function VisionPage() {
             <SecondaryButton
               type="button"
               onClick={() => setMode("connected")}
-              className={mode === "connected" ? "border-blue-500/60 bg-blue-500/15 text-blue-200" : ""}
+              className={mode === "connected" ? "border-sky-400 bg-sky-300 text-slate-950 font-semibold hover:bg-sky-400" : ""}
             >
               <Video className="h-4 w-4" />
               Mode 2: Connected / Upload
@@ -155,10 +155,10 @@ export default function VisionPage() {
       />
 
       {/* Mode Disclaimer Banner */}
-      <PanelCard className="border-cyan-500/25 bg-cyan-950/20 py-3">
+      <PanelCard className="border-sky-200 bg-sky-50/70 py-3">
         <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
-          <div className="flex items-center gap-2 text-cyan-200">
-            <Camera className="h-4 w-4 shrink-0" />
+          <div className="flex items-center gap-2 text-sky-950">
+            <Camera className="h-4 w-4 shrink-0 text-sky-700" />
             {mode === "demo" ? (
               <span>
                 <strong>DEMO MODE ACTIVE:</strong> Displaying simulated shelf/checkout bounding-box telemetry. No unauthorized external CCTV feed is claimed.
@@ -193,7 +193,7 @@ export default function VisionPage() {
                   setSelectedCamera(e.target.value);
                   setActiveBoxes(null);
                 }}
-                className="min-h-[40px] rounded-lg border border-slate-700 bg-slate-900 px-3 text-xs font-medium text-slate-100"
+                className="min-h-[40px] rounded-lg border border-slate-300 bg-white px-3 text-xs font-medium text-slate-900"
               >
                 {STORE_CAMERAS.map((cam) => (
                   <option key={cam.id} value={cam.id}>
@@ -209,7 +209,7 @@ export default function VisionPage() {
                   onChange={(e) =>
                     setScenarioPreset(e.target.value as "normal" | "low_stock" | "stockout" | "anomaly")
                   }
-                  className="min-h-[40px] rounded-lg border border-slate-700 bg-slate-900 px-3 text-xs font-medium text-slate-100"
+                  className="min-h-[40px] rounded-lg border border-slate-300 bg-white px-3 text-xs font-medium text-slate-900"
                 >
                   <option value="normal">Healthy Shelf (85%)</option>
                   <option value="low_stock">Low Stock Alert (18%)</option>
@@ -225,7 +225,7 @@ export default function VisionPage() {
                 {analyzing ? "Scanning Frame..." : "Capture & Analyze Frame"}
               </PrimaryButton>
             ) : (
-              <label className="inline-flex min-h-[40px] cursor-pointer items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-xs font-semibold text-white hover:bg-blue-500">
+              <label className="inline-flex min-h-[40px] cursor-pointer items-center gap-2 rounded-lg border border-sky-400 bg-sky-300 px-4 py-2 text-xs font-semibold text-slate-950 shadow-sm hover:bg-sky-400">
                 <Upload className="h-4 w-4" />
                 {analyzing ? "Processing..." : "Upload Test Image / Video"}
                 <input
@@ -239,7 +239,7 @@ export default function VisionPage() {
           </div>
 
           {/* Interactive Annotated Frame Surface */}
-          <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-slate-800 bg-[#070b12]">
+          <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
             {uploadedPreviewUrl ? (
               <Image
                 src={uploadedPreviewUrl}
@@ -255,13 +255,13 @@ export default function VisionPage() {
                 role="img"
                 aria-label={`Simulated store camera feed ${selectedCamera}`}
               >
-                <rect width="800" height="450" fill="#080d16" />
-                {/* Shelf structure */}
-                <line x1="40" y1="150" x2="760" y2="150" stroke="#1e293b" strokeWidth="6" />
-                <line x1="40" y1="330" x2="760" y2="330" stroke="#1e293b" strokeWidth="6" />
-                <line x1="40" y1="40" x2="40" y2="410" stroke="#1e293b" strokeWidth="4" />
-                <line x1="760" y1="40" x2="760" y2="410" stroke="#1e293b" strokeWidth="4" />
-                {/* Product silhouettes */}
+                <rect width="800" height="450" fill="#f8fafc" />
+                {/* Store shelf architecture */}
+                <line x1="40" y1="150" x2="760" y2="150" stroke="#cbd5e1" strokeWidth="6" />
+                <line x1="40" y1="335" x2="760" y2="335" stroke="#94a3b8" strokeWidth="8" />
+                <line x1="40" y1="40" x2="40" y2="410" stroke="#cbd5e1" strokeWidth="4" />
+                <line x1="760" y1="40" x2="760" y2="410" stroke="#cbd5e1" strokeWidth="4" />
+                {/* Live product facings using studio product photos */}
                 {[0, 1, 2, 3, 4].map((slot) => {
                   const occupied =
                     scenarioPreset === "normal"
@@ -272,22 +272,44 @@ export default function VisionPage() {
                       ? slot < 3
                       : false;
                   return (
-                    <g key={slot} transform={`translate(${95 + slot * 125}, 185)`}>
+                    <g key={slot} transform={`translate(${88 + slot * 128}, 182)`}>
                       {occupied ? (
                         <>
-                          <rect width="84" height="140" rx="8" fill="#172554" stroke="#3b82f6" strokeOpacity="0.45" />
-                          <rect x="14" y="24" width="56" height="44" rx="4" fill="#0f172a" />
-                          <text x="42" y="50" textAnchor="middle" fill="#38bdf8" fontSize="11" fontFamily="monospace">
+                          <rect
+                            width="98"
+                            height="146"
+                            rx="10"
+                            fill="#ffffff"
+                            stroke="#7dd3fc"
+                            strokeWidth="2"
+                          />
+                          <image
+                            href={`/products/${camMeta.sku}.jpg`}
+                            x="9"
+                            y="10"
+                            width="80"
+                            height="104"
+                            preserveAspectRatio="xMidYMid meet"
+                          />
+                          <text
+                            x="49"
+                            y="132"
+                            textAnchor="middle"
+                            fill="#0369a1"
+                            fontSize="10"
+                            fontWeight="bold"
+                            fontFamily="monospace"
+                          >
                             {camMeta.sku.replace("SKU-", "")}
                           </text>
                         </>
                       ) : (
                         <rect
-                          width="84"
-                          height="140"
-                          rx="8"
-                          fill="none"
-                          stroke="#334155"
+                          width="98"
+                          height="146"
+                          rx="10"
+                          fill="#f1f5f9"
+                          stroke="#94a3b8"
                           strokeDasharray="6 6"
                         />
                       )}
@@ -299,10 +321,10 @@ export default function VisionPage() {
 
             {/* Overlay HUD */}
             <div className="pointer-events-none absolute inset-x-3 top-3 flex items-center justify-between text-[11px] font-mono">
-              <span className="rounded bg-black/70 px-2 py-1 text-cyan-300">
+              <span className="rounded bg-white/90 px-2 py-1 text-sky-900 ring-1 ring-sky-200 shadow-xs">
                 {selectedCamera} • {mode === "demo" ? "SIMULATION OVERLAY" : "UPLOAD / OPENCV"}
               </span>
-              <span className="rounded bg-black/70 px-2 py-1 text-slate-300">
+              <span className="rounded bg-white/90 px-2 py-1 text-slate-800 ring-1 ring-slate-200 shadow-xs">
                 Occupancy: {latestEventForCam?.shelfOccupancyPct ?? 80}% • Conf:{" "}
                 {latestEventForCam?.confidencePct ?? 94}%
               </span>
@@ -312,10 +334,10 @@ export default function VisionPage() {
             {boxesToShow.map((box, idx) => {
               const color =
                 box.status === "stockout"
-                  ? "border-rose-500 bg-rose-500/10 text-rose-200"
+                  ? "border-rose-500 bg-rose-500/10 text-rose-900"
                   : box.status === "low_stock" || box.status === "anomaly"
-                  ? "border-amber-400 bg-amber-500/10 text-amber-200"
-                  : "border-emerald-400 bg-emerald-500/10 text-emerald-200";
+                  ? "border-amber-500 bg-amber-500/10 text-amber-950"
+                  : "border-emerald-500 bg-emerald-500/10 text-emerald-950";
               return (
                 <div
                   key={`${box.sku}-${idx}`}
@@ -327,7 +349,7 @@ export default function VisionPage() {
                   }}
                   className={`pointer-events-none absolute rounded-md border-2 ${color}`}
                 >
-                  <span className="inline-block rounded-br bg-black/80 px-1.5 py-0.5 font-mono text-[10px] font-semibold">
+                  <span className="inline-block rounded-br bg-slate-900/90 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-white">
                     {box.sku} ({box.confidence}%)
                   </span>
                 </div>
@@ -338,44 +360,62 @@ export default function VisionPage() {
 
         {/* Camera Telemetry Inspector */}
         <PanelCard className="space-y-4">
-          <h2 className="text-sm font-semibold text-white">Active Detection Telemetry</h2>
+          <h2 className="text-sm font-semibold text-slate-950">Active Detection Telemetry</h2>
           {latestEventForCam ? (
             <div className="space-y-3 text-xs">
-              <div className="flex justify-between border-b border-slate-800 pb-2">
-                <span className="text-slate-400">Camera ID</span>
-                <span className="font-mono font-semibold text-slate-100">{latestEventForCam.cameraId}</span>
+              <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 p-2.5">
+                <Image
+                  src={`/products/${latestEventForCam.sku || camMeta.sku}.jpg`}
+                  alt={latestEventForCam.productName || camMeta.sku}
+                  width={52}
+                  height={52}
+                  unoptimized
+                  className="h-13 w-13 shrink-0 rounded-lg border border-slate-200 bg-white p-0.5 object-contain"
+                />
+                <div className="min-w-0">
+                  <p className="truncate font-semibold text-slate-950">
+                    {latestEventForCam.productName || camMeta.label}
+                  </p>
+                  <p className="font-mono text-[11px] font-semibold text-sky-700">
+                    {latestEventForCam.sku || camMeta.sku}
+                  </p>
+                </div>
               </div>
-              <div className="flex justify-between border-b border-slate-800 pb-2">
-                <span className="text-slate-400">Detected SKU</span>
-                <span className="font-mono font-semibold text-cyan-300">{latestEventForCam.sku || "N/A"}</span>
+              <div className="flex justify-between border-b border-slate-200 pb-2">
+                <span className="text-slate-500">Camera ID</span>
+                <span className="font-mono font-semibold text-slate-900">{latestEventForCam.cameraId}</span>
               </div>
-              <div className="flex justify-between border-b border-slate-800 pb-2">
-                <span className="text-slate-400">Confidence Score</span>
-                <span className="font-semibold text-slate-100">{latestEventForCam.confidencePct}%</span>
+              <div className="flex justify-between border-b border-slate-200 pb-2">
+                <span className="text-slate-500">Detected SKU</span>
+                <span className="font-mono font-semibold text-sky-700">{latestEventForCam.sku || "N/A"}</span>
               </div>
-              <div className="flex justify-between border-b border-slate-800 pb-2">
-                <span className="text-slate-400">Shelf Occupancy</span>
-                <span className="font-semibold text-slate-100">
+              <div className="flex justify-between border-b border-slate-200 pb-2">
+                <span className="text-slate-500">Confidence Score</span>
+                <span className="font-semibold text-slate-900">{latestEventForCam.confidencePct}%</span>
+              </div>
+              <div className="flex justify-between border-b border-slate-200 pb-2">
+                <span className="text-slate-500">Shelf Occupancy</span>
+                <span className="font-semibold text-slate-900">
                   {latestEventForCam.shelfOccupancyPct !== null
                     ? `${latestEventForCam.shelfOccupancyPct}%`
                     : "Checkout Lane"}
                 </span>
               </div>
-              <div className="flex justify-between border-b border-slate-800 pb-2">
-                <span className="text-slate-400">Category / Aisle</span>
-                <span className="text-right text-slate-200">
+              <div className="flex justify-between border-b border-slate-200 pb-2">
+                <span className="text-slate-500">Category / Aisle</span>
+                <span className="text-right text-slate-800">
                   {latestEventForCam.category} • {latestEventForCam.aisle}
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-400">Timestamp</span>
-                <span className="text-slate-300">{formatRelativeTime(latestEventForCam.createdAt)}</span>
+                <span className="text-slate-500">Timestamp</span>
+                <span className="text-slate-700">{formatRelativeTime(latestEventForCam.createdAt)}</span>
               </div>
 
               {latestEventForCam.anomalyFlag && (
-                <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-amber-200">
+                <div className="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-900">
                   <p className="flex items-center gap-1.5 font-semibold">
-                    <AlertTriangle className="h-4 w-4" />
+                    <AlertTriangle className="h-4 w-4 text-amber-600" />
                     Anomaly Flagged
                   </p>
                   <p className="mt-1 text-[11px] leading-relaxed">{latestEventForCam.notes}</p>
@@ -383,20 +423,20 @@ export default function VisionPage() {
               )}
             </div>
           ) : (
-            <p className="text-xs text-slate-400">No vision events captured yet.</p>
+            <p className="text-xs text-slate-600">No vision events captured yet.</p>
           )}
         </PanelCard>
       </div>
 
       {/* Vision Events Log Table */}
       <PanelCard>
-        <h2 id="vision-table-title" className="mb-4 text-sm font-semibold text-white">
+        <h2 id="vision-table-title" className="mb-4 text-sm font-semibold text-slate-950">
           Recent Computer Vision Detection Stream
         </h2>
         <div tabIndex={0} role="region" aria-labelledby="vision-table-title" className="table-wrapper">
           <table className="retail-table retail-table-responsive text-left text-xs">
             <thead>
-              <tr className="border-b border-slate-800 text-slate-400">
+              <tr className="border-b border-slate-200 text-slate-600">
                 <th className="px-3 py-2.5">Camera</th>
                 <th className="px-3 py-2.5">Event</th>
                 <th className="px-3 py-2.5">SKU / Product</th>
@@ -406,24 +446,24 @@ export default function VisionPage() {
                 <th className="px-3 py-2.5">Time</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/70">
+            <tbody className="divide-y divide-slate-200">
               {(state?.visionEvents ?? []).slice(0, 12).map((ev) => (
-                <tr key={ev.id} className="hover:bg-slate-900/50">
-                  <th className="px-3 py-2.5 font-mono font-semibold text-cyan-300">{ev.cameraId}</th>
+                <tr key={ev.id} className="hover:bg-sky-50/40">
+                  <th className="px-3 py-2.5 font-mono font-semibold text-sky-700">{ev.cameraId}</th>
                   <td data-label="Event" className="px-3 py-2.5">
                     <StatusBadge tone={ev.anomalyFlag ? "amber" : "green"}>{ev.eventType}</StatusBadge>
                   </td>
-                  <td data-label="SKU" className="px-3 py-2.5 text-slate-200">
+                  <td data-label="SKU" className="px-3 py-2.5 text-slate-800">
                     {ev.sku} {ev.productName ? `• ${ev.productName}` : ""}
                   </td>
-                  <td data-label="Aisle" className="px-3 py-2.5 text-slate-400">{ev.aisle}</td>
-                  <td data-label="Confidence" className="px-3 py-2.5 font-mono text-slate-200">
+                  <td data-label="Aisle" className="px-3 py-2.5 text-slate-600">{ev.aisle}</td>
+                  <td data-label="Confidence" className="px-3 py-2.5 font-mono text-slate-900">
                     {ev.confidencePct}%
                   </td>
-                  <td data-label="Occupancy" className="px-3 py-2.5 text-slate-300">
+                  <td data-label="Occupancy" className="px-3 py-2.5 text-slate-700">
                     {ev.shelfOccupancyPct !== null ? `${ev.shelfOccupancyPct}%` : "—"}
                   </td>
-                  <td data-label="Time" className="px-3 py-2.5 text-slate-400">
+                  <td data-label="Time" className="px-3 py-2.5 text-slate-500">
                     {formatRelativeTime(ev.createdAt)}
                   </td>
                 </tr>

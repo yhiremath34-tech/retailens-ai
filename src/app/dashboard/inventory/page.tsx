@@ -2,7 +2,7 @@
 
 import React, { useMemo, useState } from "react";
 import Image from "next/image";
-import { Download, Edit3, History, Plus, Search, Trash2 } from "lucide-react";
+import { Download, Edit3, History, LayoutGrid, List, Plus, Search, Trash2 } from "lucide-react";
 import { useStoreData } from "@/components/providers/StoreContext";
 import { ModalDialog } from "@/components/ui/ConfirmDialog";
 import {
@@ -23,6 +23,7 @@ export default function InventoryPage() {
   const [search, setSearch] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [viewMode, setViewMode] = useState<"table" | "grid">("table");
 
   const [addOpen, setAddOpen] = useState(false);
   const [editingProd, setEditingProd] = useState<ProductWithInventory | null>(null);
@@ -248,7 +249,7 @@ export default function InventoryPage() {
               placeholder="Search SKU, product name, or barcode..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="min-h-[40px] w-full rounded-lg border border-slate-700 bg-slate-900 pl-9 pr-3 text-sm text-white placeholder-slate-500"
+              className="min-h-[40px] w-full rounded-lg border border-slate-300 bg-white pl-9 pr-3 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:outline-none"
             />
           </div>
 
@@ -256,7 +257,7 @@ export default function InventoryPage() {
             aria-label="Filter by category"
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="min-h-[40px] rounded-lg border border-slate-700 bg-slate-900 px-3 text-sm text-slate-200"
+            className="min-h-[40px] rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-800 focus:border-sky-500 focus:outline-none"
           >
             {categories.map((c) => (
               <option key={c} value={c}>
@@ -269,22 +270,127 @@ export default function InventoryPage() {
             aria-label="Filter by stock status"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="min-h-[40px] rounded-lg border border-slate-700 bg-slate-900 px-3 text-sm text-slate-200"
+            className="min-h-[40px] rounded-lg border border-slate-300 bg-white px-3 text-sm text-slate-800 focus:border-sky-500 focus:outline-none"
           >
             <option value="all">All Stock Statuses</option>
             <option value="in_stock">In Stock</option>
             <option value="low_stock">Low Stock</option>
             <option value="out_of_stock">Out of Stock</option>
           </select>
+
+          <div className="inline-flex rounded-lg border border-sky-200 bg-sky-50/70 p-0.5 text-xs">
+            <button
+              type="button"
+              onClick={() => setViewMode("table")}
+              className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition ${
+                viewMode === "table"
+                  ? "bg-sky-300 text-slate-950 shadow-xs font-semibold"
+                  : "text-slate-600 hover:text-slate-950"
+              }`}
+            >
+              <List className="h-3.5 w-3.5" />
+              Table
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode("grid")}
+              className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 font-medium transition ${
+                viewMode === "grid"
+                  ? "bg-sky-300 text-slate-950 shadow-xs font-semibold"
+                  : "text-slate-600 hover:text-slate-950"
+              }`}
+            >
+              <LayoutGrid className="h-3.5 w-3.5" />
+              Photos
+            </button>
+          </div>
         </div>
       </PanelCard>
 
-      {/* Inventory Table */}
+      {/* Inventory Photo Catalog or Operational Table */}
+      {viewMode === "grid" ? (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {filteredProducts.map((p) => {
+            const days = daysUntilDate(p.expiryDate);
+            return (
+              <PanelCard key={p.id} className="flex flex-col justify-between p-4 hover:border-sky-300">
+                <div>
+                  <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-xl border border-slate-100 bg-white p-3">
+                    <Image
+                      src={p.imageUrl}
+                      alt={p.name}
+                      width={220}
+                      height={220}
+                      unoptimized
+                      className="h-full w-full object-contain"
+                    />
+                    <span className="absolute left-2 top-2 rounded-full border border-sky-200 bg-sky-50 px-2 py-0.5 font-mono text-[10px] font-semibold text-sky-900">
+                      {p.sku}
+                    </span>
+                    <StatusBadge
+                      className="absolute right-2 top-2"
+                      tone={
+                        p.stockStatus === "in_stock"
+                          ? "green"
+                          : p.stockStatus === "low_stock"
+                          ? "amber"
+                          : "red"
+                      }
+                    >
+                      {p.availableQuantity} units
+                    </StatusBadge>
+                  </div>
+                  <div className="mt-3">
+                    <p className="text-[11px] font-medium text-sky-700">{p.category}</p>
+                    <h2 className="text-sm font-bold text-slate-950">{p.name}</h2>
+                    <p className="text-[11px] text-slate-500">{p.aisleLocation}</p>
+                  </div>
+                </div>
+
+                <div className="mt-3 flex items-center justify-between border-t border-slate-100 pt-3 text-xs">
+                  <div>
+                    <p className="font-mono text-sm font-bold text-slate-950">{formatINR(p.sellingPrice)}</p>
+                    <p className={days <= 4 ? "text-[11px] font-semibold text-rose-600" : "text-[11px] text-slate-500"}>
+                      Exp {p.expiryDate} ({days}d)
+                    </p>
+                  </div>
+                  <div className="flex gap-1">
+                    <button
+                      type="button"
+                      onClick={() => setHistoryProd(p)}
+                      title="Stock History"
+                      className="rounded-lg border border-slate-200 bg-white p-1.5 text-slate-700 hover:bg-sky-50"
+                    >
+                      <History className="h-3.5 w-3.5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => openEditModal(p)}
+                      title="Edit Product"
+                      className="rounded-lg border border-sky-200 bg-sky-50 p-1.5 text-sky-800 hover:bg-sky-100"
+                    >
+                      <Edit3 className="h-3.5 w-3.5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setDeleteProd(p)}
+                      title="Delete Product"
+                      className="rounded-lg border border-rose-200 bg-rose-50 p-1.5 text-rose-700 hover:bg-rose-100"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                </div>
+              </PanelCard>
+            );
+          })}
+        </div>
+      ) : (
       <PanelCard>
         <div tabIndex={0} role="region" aria-label="Store inventory table" className="table-wrapper">
           <table className="retail-table retail-table-responsive text-left text-xs">
             <thead>
-              <tr className="border-b border-slate-800 text-slate-400">
+              <tr className="border-b border-slate-200 text-slate-600">
                 <th className="px-3 py-3">Product</th>
                 <th className="px-3 py-3">SKU / Barcode</th>
                 <th className="px-3 py-3">Category & Aisle</th>
@@ -295,47 +401,47 @@ export default function InventoryPage() {
                 <th className="px-3 py-3 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/70">
+            <tbody className="divide-y divide-slate-200">
               {filteredProducts.map((p) => {
                 const days = daysUntilDate(p.expiryDate);
                 return (
-                  <tr key={p.id} className="hover:bg-slate-900/50">
-                    <th className="px-3 py-3 font-medium text-slate-100">
-                      <div className="flex items-center gap-2.5">
+                  <tr key={p.id} className="hover:bg-sky-50/40">
+                    <th className="px-3 py-3 font-medium text-slate-900">
+                      <div className="flex items-center gap-3">
                         <Image
                           src={p.imageUrl}
                           alt={p.name}
-                          width={34}
-                          height={34}
+                          width={48}
+                          height={48}
                           unoptimized
-                          className="h-8 w-8 rounded-lg border border-slate-700 object-cover"
+                          className="h-12 w-12 shrink-0 rounded-xl border border-slate-200 bg-white p-0.5 object-contain shadow-xs"
                         />
                         <div>
-                          <p className="font-semibold text-white">{p.name}</p>
-                          <p className="text-[11px] font-normal text-slate-400">{p.supplierName}</p>
+                          <p className="font-semibold text-slate-950">{p.name}</p>
+                          <p className="text-[11px] font-normal text-slate-500">{p.supplierName}</p>
                         </div>
                       </div>
                     </th>
-                    <td data-label="SKU" className="px-3 py-3 font-mono text-slate-300">
-                      <p className="text-cyan-300">{p.sku}</p>
+                    <td data-label="SKU" className="px-3 py-3 font-mono text-slate-700">
+                      <p className="font-semibold text-sky-700">{p.sku}</p>
                       <p className="text-[11px] text-slate-500">{p.barcode}</p>
                     </td>
-                    <td data-label="Aisle" className="px-3 py-3 text-slate-300">
+                    <td data-label="Aisle" className="px-3 py-3 text-slate-700">
                       <p>{p.category}</p>
                       <p className="text-[11px] text-slate-500">{p.aisleLocation}</p>
                     </td>
-                    <td data-label="Price" className="px-3 py-3 text-slate-200">
+                    <td data-label="Price" className="px-3 py-3 text-slate-900">
                       <p className="font-semibold">{formatINR(p.sellingPrice)}</p>
                       <p className="text-[11px] text-slate-500">Cost: {formatINR(p.costPrice)}</p>
                     </td>
                     <td data-label="Quantity" className="px-3 py-3">
-                      <p className="font-mono text-sm font-bold text-white">{p.availableQuantity}</p>
+                      <p className="font-mono text-sm font-bold text-slate-950">{p.availableQuantity}</p>
                       <p className="text-[11px] text-slate-500">
                         Min {p.minStockThreshold} / Max {p.maxStockThreshold}
                       </p>
                     </td>
                     <td data-label="Expiry" className="px-3 py-3">
-                      <p className={days <= 4 ? "font-semibold text-rose-400" : "text-slate-300"}>
+                      <p className={days <= 4 ? "font-semibold text-rose-600" : "text-slate-700"}>
                         {p.expiryDate} ({days}d)
                       </p>
                       <p className="font-mono text-[11px] text-slate-500">{p.batchNumber}</p>
@@ -359,7 +465,7 @@ export default function InventoryPage() {
                           type="button"
                           onClick={() => setHistoryProd(p)}
                           title="Stock History"
-                          className="rounded-lg border border-slate-800 p-1.5 text-slate-300 hover:bg-slate-800"
+                          className="rounded-lg border border-slate-200 bg-white p-1.5 text-slate-700 hover:bg-sky-50"
                         >
                           <History className="h-3.5 w-3.5" />
                         </button>
@@ -367,7 +473,7 @@ export default function InventoryPage() {
                           type="button"
                           onClick={() => openEditModal(p)}
                           title="Edit Product"
-                          className="rounded-lg border border-slate-800 p-1.5 text-blue-300 hover:bg-slate-800"
+                          className="rounded-lg border border-sky-200 bg-sky-50 p-1.5 text-sky-800 hover:bg-sky-100"
                         >
                           <Edit3 className="h-3.5 w-3.5" />
                         </button>
@@ -375,7 +481,7 @@ export default function InventoryPage() {
                           type="button"
                           onClick={() => setDeleteProd(p)}
                           title="Delete Product"
-                          className="rounded-lg border border-slate-800 p-1.5 text-rose-400 hover:bg-rose-500/10"
+                          className="rounded-lg border border-rose-200 bg-rose-50 p-1.5 text-rose-700 hover:bg-rose-100"
                         >
                           <Trash2 className="h-3.5 w-3.5" />
                         </button>
@@ -388,6 +494,7 @@ export default function InventoryPage() {
           </table>
         </div>
       </PanelCard>
+      )}
 
       {/* Add / Edit Modal */}
       <ModalDialog
@@ -399,45 +506,61 @@ export default function InventoryPage() {
         title={editingProd ? `Edit ${editingProd.sku}` : "Add New Store Product"}
       >
         <form onSubmit={editingProd ? handleSaveEdit : handleSaveNew} className="space-y-3 text-xs">
+          {editingProd && (
+            <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 p-2.5">
+              <Image
+                src={editingProd.imageUrl}
+                alt={editingProd.name}
+                width={56}
+                height={56}
+                unoptimized
+                className="h-14 w-14 rounded-lg border border-slate-200 bg-white p-0.5 object-contain"
+              />
+              <div>
+                <p className="font-semibold text-slate-900">{editingProd.name}</p>
+                <p className="font-mono text-[11px] text-sky-700">{editingProd.sku}</p>
+              </div>
+            </div>
+          )}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label htmlFor="p-sku" className="mb-1 block text-slate-300">SKU</label>
+              <label htmlFor="p-sku" className="mb-1 block text-slate-700">SKU</label>
               <input
                 id="p-sku"
                 required
                 disabled={Boolean(editingProd)}
                 value={formState.sku}
                 onChange={(e) => setFormState({ ...formState, sku: e.target.value })}
-                className="min-h-[38px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3 text-white disabled:opacity-60"
+                className="min-h-[38px] w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-900 disabled:bg-slate-100 disabled:opacity-70"
               />
             </div>
             <div>
-              <label htmlFor="p-barcode" className="mb-1 block text-slate-300">Barcode</label>
+              <label htmlFor="p-barcode" className="mb-1 block text-slate-700">Barcode</label>
               <input
                 id="p-barcode"
                 required
                 disabled={Boolean(editingProd)}
                 value={formState.barcode}
                 onChange={(e) => setFormState({ ...formState, barcode: e.target.value })}
-                className="min-h-[38px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3 text-white disabled:opacity-60"
+                className="min-h-[38px] w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-900 disabled:bg-slate-100 disabled:opacity-70"
               />
             </div>
           </div>
 
           <div>
-            <label htmlFor="p-name" className="mb-1 block text-slate-300">Product Name</label>
+            <label htmlFor="p-name" className="mb-1 block text-slate-700">Product Name</label>
             <input
               id="p-name"
               required
               value={formState.name}
               onChange={(e) => setFormState({ ...formState, name: e.target.value })}
-              className="min-h-[38px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3 text-white"
+              className="min-h-[38px] w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-900"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label htmlFor="p-sell" className="mb-1 block text-slate-300">Selling Price (₹)</label>
+              <label htmlFor="p-sell" className="mb-1 block text-slate-700">Selling Price (₹)</label>
               <input
                 id="p-sell"
                 type="number"
@@ -445,11 +568,11 @@ export default function InventoryPage() {
                 required
                 value={formState.sellingPrice}
                 onChange={(e) => setFormState({ ...formState, sellingPrice: e.target.value })}
-                className="min-h-[38px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3 text-white"
+                className="min-h-[38px] w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-900"
               />
             </div>
             <div>
-              <label htmlFor="p-cost" className="mb-1 block text-slate-300">Cost Price (₹)</label>
+              <label htmlFor="p-cost" className="mb-1 block text-slate-700">Cost Price (₹)</label>
               <input
                 id="p-cost"
                 type="number"
@@ -457,67 +580,67 @@ export default function InventoryPage() {
                 required
                 value={formState.costPrice}
                 onChange={(e) => setFormState({ ...formState, costPrice: e.target.value })}
-                className="min-h-[38px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3 text-white"
+                className="min-h-[38px] w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-900"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-3">
             <div>
-              <label htmlFor="p-qty" className="mb-1 block text-slate-300">Available Qty</label>
+              <label htmlFor="p-qty" className="mb-1 block text-slate-700">Available Qty</label>
               <input
                 id="p-qty"
                 type="number"
                 required
                 value={formState.availableQuantity}
                 onChange={(e) => setFormState({ ...formState, availableQuantity: e.target.value })}
-                className="min-h-[38px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3 text-white"
+                className="min-h-[38px] w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-900"
               />
             </div>
             <div>
-              <label htmlFor="p-min" className="mb-1 block text-slate-300">Min Threshold</label>
+              <label htmlFor="p-min" className="mb-1 block text-slate-700">Min Threshold</label>
               <input
                 id="p-min"
                 type="number"
                 required
                 value={formState.minStockThreshold}
                 onChange={(e) => setFormState({ ...formState, minStockThreshold: e.target.value })}
-                className="min-h-[38px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3 text-white"
+                className="min-h-[38px] w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-900"
               />
             </div>
             <div>
-              <label htmlFor="p-max" className="mb-1 block text-slate-300">Max Threshold</label>
+              <label htmlFor="p-max" className="mb-1 block text-slate-700">Max Threshold</label>
               <input
                 id="p-max"
                 type="number"
                 required
                 value={formState.maxStockThreshold}
                 onChange={(e) => setFormState({ ...formState, maxStockThreshold: e.target.value })}
-                className="min-h-[38px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3 text-white"
+                className="min-h-[38px] w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-900"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label htmlFor="p-aisle" className="mb-1 block text-slate-300">Aisle Location</label>
+              <label htmlFor="p-aisle" className="mb-1 block text-slate-700">Aisle Location</label>
               <input
                 id="p-aisle"
                 required
                 value={formState.aisleLocation}
                 onChange={(e) => setFormState({ ...formState, aisleLocation: e.target.value })}
-                className="min-h-[38px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3 text-white"
+                className="min-h-[38px] w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-900"
               />
             </div>
             <div>
-              <label htmlFor="p-exp" className="mb-1 block text-slate-300">Expiry Date</label>
+              <label htmlFor="p-exp" className="mb-1 block text-slate-700">Expiry Date</label>
               <input
                 id="p-exp"
                 type="date"
                 required
                 value={formState.expiryDate}
                 onChange={(e) => setFormState({ ...formState, expiryDate: e.target.value })}
-                className="min-h-[38px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3 text-white"
+                className="min-h-[38px] w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-900"
               />
             </div>
           </div>
@@ -545,9 +668,9 @@ export default function InventoryPage() {
         onClose={() => setDeleteProd(null)}
         title="Confirm Product Deletion"
       >
-        <p className="text-sm text-slate-300">
+        <p className="text-sm text-slate-700">
           Are you sure you want to permanently remove{" "}
-          <strong className="text-white">{deleteProd?.name}</strong> ({deleteProd?.sku}) from the
+          <strong className="text-slate-950">{deleteProd?.name}</strong> ({deleteProd?.sku}) from the
           store catalog?
         </p>
         <div className="mt-5 flex justify-end gap-2.5">
@@ -577,26 +700,26 @@ export default function InventoryPage() {
             .map((m) => (
               <div
                 key={m.id}
-                className="rounded-lg border border-slate-800 bg-slate-900/70 p-3"
+                className="rounded-lg border border-slate-200 bg-slate-50 p-3"
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-semibold text-white">{m.movementType}</span>
+                  <span className="font-semibold text-slate-900">{m.movementType}</span>
                   <span
                     className={
-                      m.quantityDelta < 0 ? "font-mono text-rose-400" : "font-mono text-emerald-400"
+                      m.quantityDelta < 0 ? "font-mono font-semibold text-rose-600" : "font-mono font-semibold text-emerald-700"
                     }
                   >
                     {m.quantityDelta > 0 ? `+${m.quantityDelta}` : m.quantityDelta} ({m.quantityBefore} → {m.quantityAfter})
                   </span>
                 </div>
-                <p className="mt-1 text-slate-300">{m.reason}</p>
+                <p className="mt-1 text-slate-700">{m.reason}</p>
                 <p className="mt-1 text-[11px] text-slate-500">
                   {m.performedBy} • {formatRelativeTime(m.createdAt)}
                 </p>
               </div>
             ))}
           {(state?.inventoryMovements ?? []).filter((m) => m.productId === historyProd?.id).length === 0 && (
-            <p className="text-slate-400">No recorded stock movements for this SKU yet.</p>
+            <p className="text-slate-600">No recorded stock movements for this SKU yet.</p>
           )}
         </div>
       </ModalDialog>

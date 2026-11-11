@@ -57,22 +57,22 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-[100dvb] flex-col items-center justify-center bg-[#090d14] px-4 py-10">
-      <div className="w-full max-w-md space-y-6 rounded-2xl border border-slate-800 bg-[#0f1623] p-6 shadow-2xl sm:p-8">
+    <div className="flex min-h-[100dvb] flex-col items-center justify-center bg-slate-50/70 px-4 py-10">
+      <div className="w-full max-w-md space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-xl sm:p-8">
         <Link href="/">
           <RetaiLensLogo />
         </Link>
 
         <div>
-          <h1 className="text-xl font-bold text-white">Create Staff Account</h1>
-          <p className="mt-1 text-sm text-slate-400">
+          <h1 className="text-xl font-bold text-slate-950">Create Staff Account</h1>
+          <p className="mt-1 text-sm text-slate-600">
             Server-side role permissions protect approvals, pricing rules, and inventory deletions.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="fullName" className="mb-1.5 block text-xs font-medium text-slate-300">
+            <label htmlFor="fullName" className="mb-1.5 block text-xs font-medium text-slate-700">
               Full name
             </label>
             <input
@@ -92,17 +92,17 @@ export default function RegisterPage() {
                 setFieldErrors((prev) => ({ ...prev, fullName: validateField("fullName", e.target.value) }))
               }
               aria-invalid={Boolean(fieldErrors.fullName)}
-              className="min-h-[44px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3.5 text-sm text-white focus:border-blue-500 focus:outline-none"
+              className="min-h-[44px] w-full rounded-lg border border-slate-300 bg-white px-3.5 text-sm text-slate-900 focus:border-sky-500 focus:outline-none"
             />
             {fieldErrors.fullName && (
-              <p role="alert" className="mt-1 text-xs text-rose-400">
+              <p role="alert" className="mt-1 text-xs text-rose-600">
                 {fieldErrors.fullName}
               </p>
             )}
           </div>
 
           <div>
-            <label htmlFor="reg-email" className="mb-1.5 block text-xs font-medium text-slate-300">
+            <label htmlFor="reg-email" className="mb-1.5 block text-xs font-medium text-slate-700">
               Work email
             </label>
             <input
@@ -125,17 +125,17 @@ export default function RegisterPage() {
                 setFieldErrors((prev) => ({ ...prev, email: validateField("email", e.target.value) }))
               }
               aria-invalid={Boolean(fieldErrors.email)}
-              className="min-h-[44px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3.5 text-sm text-white focus:border-blue-500 focus:outline-none"
+              className="min-h-[44px] w-full rounded-lg border border-slate-300 bg-white px-3.5 text-sm text-slate-900 focus:border-sky-500 focus:outline-none"
             />
             {fieldErrors.email && (
-              <p role="alert" className="mt-1 text-xs text-rose-400">
+              <p role="alert" className="mt-1 text-xs text-rose-600">
                 {fieldErrors.email}
               </p>
             )}
           </div>
 
           <div>
-            <label htmlFor="reg-role" className="mb-1.5 block text-xs font-medium text-slate-300">
+            <label htmlFor="reg-role" className="mb-1.5 block text-xs font-medium text-slate-700">
               Store Role
             </label>
             <select
@@ -143,7 +143,7 @@ export default function RegisterPage() {
               name="role"
               value={role}
               onChange={(e) => setRole(e.target.value as UserRole)}
-              className="min-h-[44px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3.5 text-sm text-white focus:border-blue-500 focus:outline-none"
+              className="min-h-[44px] w-full rounded-lg border border-slate-300 bg-white px-3.5 text-sm text-slate-900 focus:border-sky-500 focus:outline-none"
             >
               <option value="store_owner">Store Owner</option>
               <option value="store_manager">Store Manager</option>
@@ -153,7 +153,7 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label htmlFor="reg-password" className="mb-1.5 block text-xs font-medium text-slate-300">
+            <label htmlFor="reg-password" className="mb-1.5 block text-xs font-medium text-slate-700">
               Password (minimum 6 characters)
             </label>
             <input
@@ -174,10 +174,10 @@ export default function RegisterPage() {
                 setFieldErrors((prev) => ({ ...prev, password: validateField("password", e.target.value) }))
               }
               aria-invalid={Boolean(fieldErrors.password)}
-              className="min-h-[44px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3.5 text-sm text-white focus:border-blue-500 focus:outline-none"
+              className="min-h-[44px] w-full rounded-lg border border-slate-300 bg-white px-3.5 text-sm text-slate-900 focus:border-sky-500 focus:outline-none"
             />
             {fieldErrors.password && (
-              <p role="alert" className="mt-1 text-xs text-rose-400">
+              <p role="alert" className="mt-1 text-xs text-rose-600">
                 {fieldErrors.password}
               </p>
             )}
@@ -186,7 +186,7 @@ export default function RegisterPage() {
           {error && (
             <div
               role="alert"
-              className="rounded-lg border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-xs text-rose-300"
+              className="rounded-lg border border-rose-300 bg-rose-50 px-3 py-2 text-xs text-rose-800"
             >
               {error}
             </div>
@@ -198,9 +198,9 @@ export default function RegisterPage() {
           </PrimaryButton>
         </form>
 
-        <p className="text-center text-xs text-slate-400">
+        <p className="text-center text-xs text-slate-600">
           Already registered?{" "}
-          <Link href="/login" className="font-medium text-cyan-400 hover:text-cyan-300">
+          <Link href="/login" className="font-medium text-sky-700 hover:text-sky-600">
             Sign in
           </Link>
         </p>

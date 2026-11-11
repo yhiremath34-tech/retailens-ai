@@ -481,7 +481,7 @@ export function buildSeedDatabaseState(): DatabaseState {
     name: p.name,
     barcode: p.barcode,
     category: p.category,
-    imageUrl: `/api/product-badge?sku=${encodeURIComponent(p.sku)}`,
+    imageUrl: `/products/${p.sku}.jpg`,
     sellingPrice: p.sellingPrice,
     costPrice: p.costPrice,
     aisleLocation: p.aisleLocation,

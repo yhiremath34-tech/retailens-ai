@@ -14,11 +14,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="light">
       <head>
-        <meta name="color-scheme" content="dark" />
+        <meta name="color-scheme" content="light" />
       </head>
-      <body className="antialiased selection:bg-blue-500/30 selection:text-cyan-100">
+      <body className="bg-white text-slate-900 antialiased selection:bg-sky-200 selection:text-slate-950">
         <ToastProvider>{children}</ToastProvider>
       </body>
     </html>

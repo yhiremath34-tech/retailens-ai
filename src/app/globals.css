@@ -1,23 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
   --font-sans: "Plus Jakarta Sans", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", "Cascadia Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-  --bg-canvas: #090d14;
-  --bg-surface: #0f1623;
-  --bg-elevated: #141d2e;
-  --border-subtle: rgba(148, 163, 184, 0.14);
-  --border-accent: rgba(59, 130, 246, 0.35);
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --accent-blue: #3b82f6;
-  --accent-cyan: #22d3ee;
-  --color-scrollbar-track: #0b1019;
-  --color-scrollbar-thumb: #334155;
+  --bg-canvas: #ffffff;
+  --bg-surface: #ffffff;
+  --bg-elevated: #f8fafc;
+  --border-subtle: rgba(15, 23, 42, 0.12);
+  --border-accent: rgba(56, 189, 248, 0.45);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --accent-blue: #38bdf8;
+  --accent-cyan: #0284c7;
+  --color-scrollbar-track: #f1f5f9;
+  --color-scrollbar-thumb: #64748b;
   scrollbar-color: var(--color-scrollbar-thumb) var(--color-scrollbar-track);
-  scrollbar-width: thin;
-  accent-color: #3b82f6;
+  accent-color: #0284c7;
 }
 
 html,
@@ -41,7 +40,7 @@ p {
 }
 
 :focus-visible {
-  outline: 2px solid #38bdf8;
+  outline: 2px solid #0284c7;
   outline-offset: 2px;
 }
 
@@ -49,17 +48,17 @@ p {
 dialog:modal {
   overscroll-behavior: contain;
   margin: auto;
-  border: 1px solid rgba(148, 163, 184, 0.22);
+  border: 1px solid #cbd5e1;
   border-radius: 1rem;
-  background: #0f1623;
-  color: #f8fafc;
+  background: #ffffff;
+  color: #0f172a;
   padding: 0;
   max-inline-size: min(92vw, 34rem);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.22);
 }
 
 dialog::backdrop {
-  background: rgba(5, 8, 14, 0.78);
+  background: rgba(15, 23, 42, 0.35);
   backdrop-filter: blur(4px);
   overflow: hidden;
   overscroll-behavior: contain;
@@ -104,7 +103,7 @@ dialog::backdrop {
   position: sticky;
   inset-block-start: 0;
   z-index: 2;
-  background: #111927;
+  background: #f8fafc;
   text-wrap: balance;
 }
 
@@ -124,10 +123,10 @@ dialog::backdrop {
 
   .retail-table-responsive tbody tr {
     margin-block-end: 0.75rem;
-    border: 1px solid rgba(148, 163, 184, 0.16);
+    border: 1px solid #e2e8f0;
     border-radius: 0.75rem;
     padding: 0.75rem;
-    background: rgba(17, 25, 39, 0.75);
+    background: #ffffff;
   }
 
   .retail-table-responsive tbody td,
@@ -143,7 +142,7 @@ dialog::backdrop {
 
   .retail-table-responsive tbody td[data-label]::before {
     content: attr(data-label) ": ";
-    color: #94a3b8;
+    color: #475569;
     font-size: 0.75rem;
     font-weight: 500;
     text-align: start;

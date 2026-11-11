@@ -38,21 +38,21 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="flex min-h-[100dvb] flex-col items-center justify-center bg-[#090d14] px-4 py-10">
-      <div className="w-full max-w-md space-y-6 rounded-2xl border border-slate-800 bg-[#0f1623] p-6 shadow-2xl sm:p-8">
+    <div className="flex min-h-[100dvb] flex-col items-center justify-center bg-slate-50/70 px-4 py-10">
+      <div className="w-full max-w-md space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-xl sm:p-8">
         <Link href="/">
           <RetaiLensLogo />
         </Link>
         <div>
-          <h1 className="text-xl font-bold text-white">Reset Password</h1>
-          <p className="mt-1 text-sm text-slate-400">
+          <h1 className="text-xl font-bold text-slate-950">Reset Password</h1>
+          <p className="mt-1 text-sm text-slate-600">
             Enter your account email to request a password reset link.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="reset-email" className="mb-1.5 block text-xs font-medium text-slate-300">
+            <label htmlFor="reset-email" className="mb-1.5 block text-xs font-medium text-slate-700">
               Email address
             </label>
             <input
@@ -75,22 +75,22 @@ export default function ForgotPasswordPage() {
                 }
               }}
               aria-invalid={Boolean(emailError)}
-              className="min-h-[44px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3.5 text-sm text-white focus:border-blue-500 focus:outline-none"
+              className="min-h-[44px] w-full rounded-lg border border-slate-300 bg-white px-3.5 text-sm text-slate-900 focus:border-sky-500 focus:outline-none"
             />
             {emailError && (
-              <p role="alert" className="mt-1 text-xs text-rose-400">
+              <p role="alert" className="mt-1 text-xs text-rose-600">
                 {emailError}
               </p>
             )}
           </div>
 
           {error && (
-            <div role="alert" className="rounded-lg border border-rose-500/40 bg-rose-500/10 p-3 text-xs text-rose-300">
+            <div role="alert" className="rounded-lg border border-rose-300 bg-rose-50 p-3 text-xs text-rose-800">
               {error}
             </div>
           )}
           {statusMessage && (
-            <div role="status" className="rounded-lg border border-emerald-500/40 bg-emerald-500/10 p-3 text-xs text-emerald-300">
+            <div role="status" className="rounded-lg border border-emerald-300 bg-emerald-50 p-3 text-xs text-emerald-900">
               {statusMessage}
             </div>
           )}
@@ -101,9 +101,9 @@ export default function ForgotPasswordPage() {
           </PrimaryButton>
         </form>
 
-        <p className="text-center text-xs text-slate-400">
+        <p className="text-center text-xs text-slate-600">
           Return to{" "}
-          <Link href="/login" className="font-medium text-cyan-400 hover:text-cyan-300">
+          <Link href="/login" className="font-medium text-sky-700 hover:text-sky-600">
             Sign in
           </Link>
         </p>

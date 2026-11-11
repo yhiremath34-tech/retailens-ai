@@ -77,20 +77,20 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-[100dvb] flex-col items-center justify-center bg-[#090d14] px-4 py-10">
-      <div className="w-full max-w-md space-y-6 rounded-2xl border border-slate-800 bg-[#0f1623] p-6 shadow-2xl sm:p-8">
+    <div className="flex min-h-[100dvb] flex-col items-center justify-center bg-slate-50/70 px-4 py-10">
+      <div className="w-full max-w-md space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-xl sm:p-8">
         <div className="flex items-center justify-between">
           <Link href="/">
             <RetaiLensLogo />
           </Link>
-          <span className="rounded-full border border-cyan-500/30 bg-cyan-500/10 px-2.5 py-0.5 text-[11px] font-medium text-cyan-300">
+          <span className="rounded-full border border-sky-300 bg-sky-50 px-2.5 py-0.5 text-[11px] font-medium text-sky-900">
             {authMode === "supabase" ? "Supabase Auth" : "Simulation Auth"}
           </span>
         </div>
 
         <div>
-          <h1 className="text-xl font-bold text-white">Sign in to Command Center</h1>
-          <p className="mt-1 text-sm text-slate-400">
+          <h1 className="text-xl font-bold text-slate-950">Sign in to Command Center</h1>
+          <p className="mt-1 text-sm text-slate-600">
             Access Retail Demo Market – Store 01 with role-enforced permissions.
           </p>
         </div>
@@ -103,7 +103,7 @@ export default function LoginPage() {
           className="space-y-4"
         >
           <div>
-            <label htmlFor="email" className="mb-1.5 block text-xs font-medium text-slate-300">
+            <label htmlFor="email" className="mb-1.5 block text-xs font-medium text-slate-700">
               Email address
             </label>
             <input
@@ -126,10 +126,10 @@ export default function LoginPage() {
                 setFieldErrors((prev) => ({ ...prev, email: validateField("email", e.target.value) }))
               }
               aria-invalid={Boolean(fieldErrors.email)}
-              className="min-h-[44px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3.5 text-sm text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none"
+              className="min-h-[44px] w-full rounded-lg border border-slate-300 bg-white px-3.5 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:outline-none"
             />
             {fieldErrors.email && (
-              <p role="alert" className="mt-1 text-xs text-rose-400">
+              <p role="alert" className="mt-1 text-xs text-rose-600">
                 {fieldErrors.email}
               </p>
             )}
@@ -137,12 +137,12 @@ export default function LoginPage() {
 
           <div>
             <div className="mb-1.5 flex items-center justify-between">
-              <label htmlFor="password" className="block text-xs font-medium text-slate-300">
+              <label htmlFor="password" className="block text-xs font-medium text-slate-700">
                 Password
               </label>
               <Link
                 href="/forgot-password"
-                className="text-xs font-medium text-blue-400 hover:text-blue-300"
+                className="text-xs font-medium text-sky-700 hover:text-sky-600"
               >
                 Forgot password?
               </Link>
@@ -166,20 +166,20 @@ export default function LoginPage() {
                   setFieldErrors((prev) => ({ ...prev, password: validateField("password", e.target.value) }))
                 }
                 aria-invalid={Boolean(fieldErrors.password)}
-                className="min-h-[44px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3.5 pr-11 text-sm text-white placeholder-slate-500 focus:border-blue-500 focus:outline-none"
+                className="min-h-[44px] w-full rounded-lg border border-slate-300 bg-white px-3.5 pr-11 text-sm text-slate-900 placeholder-slate-400 focus:border-sky-500 focus:outline-none"
               />
               <button
                 type="button"
                 aria-pressed={showPassword}
                 aria-label={showPassword ? "Hide password" : "Show password"}
                 onClick={() => setShowPassword((v) => !v)}
-                className="absolute inset-y-0 right-1 flex items-center px-2.5 text-slate-400 hover:text-slate-200"
+                className="absolute inset-y-0 right-1 flex items-center px-2.5 text-slate-500 hover:text-slate-900"
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
             </div>
             {fieldErrors.password && (
-              <p role="alert" className="mt-1 text-xs text-rose-400">
+              <p role="alert" className="mt-1 text-xs text-rose-600">
                 {fieldErrors.password}
               </p>
             )}
@@ -188,7 +188,7 @@ export default function LoginPage() {
           {error && (
             <div
               role="alert"
-              className="rounded-lg border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-xs text-rose-300"
+              className="rounded-lg border border-rose-300 bg-rose-50 px-3 py-2 text-xs text-rose-800"
             >
               {error}
             </div>
@@ -217,9 +217,9 @@ export default function LoginPage() {
         </SecondaryButton>
 
         {/* Role Quick-Login Presets */}
-        <div className="border-t border-slate-800 pt-4">
-          <p className="mb-2.5 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-400">
-            <Shield className="h-3.5 w-3.5 text-cyan-400" />
+        <div className="border-t border-slate-200 pt-4">
+          <p className="mb-2.5 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-600">
+            <Shield className="h-3.5 w-3.5 text-sky-600" />
             Quick Role Demo Sign-In (Password: demo1234)
           </p>
           <div className="grid grid-cols-2 gap-2">
@@ -233,18 +233,18 @@ export default function LoginPage() {
                   setPassword("demo1234");
                   submitLogin(acc.email, "demo1234");
                 }}
-                className="rounded-lg border border-slate-800 bg-slate-900/70 p-2.5 text-left transition hover:border-blue-500/40 hover:bg-slate-800"
+                className="rounded-lg border border-sky-200 bg-sky-50/70 p-2.5 text-left transition hover:border-sky-400 hover:bg-sky-100"
               >
-                <p className="text-xs font-semibold text-slate-100">{acc.label}</p>
-                <p className="text-[11px] text-slate-400">{acc.role}</p>
+                <p className="text-xs font-semibold text-slate-900">{acc.label}</p>
+                <p className="text-[11px] text-slate-600">{acc.role}</p>
               </button>
             ))}
           </div>
         </div>
 
-        <p className="text-center text-xs text-slate-400">
+        <p className="text-center text-xs text-slate-600">
           Need a staff account?{" "}
-          <Link href="/register" className="font-medium text-cyan-400 hover:text-cyan-300">
+          <Link href="/register" className="font-medium text-sky-700 hover:text-sky-600">
             Register new user
           </Link>
         </p>

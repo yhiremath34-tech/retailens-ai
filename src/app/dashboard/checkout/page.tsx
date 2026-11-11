@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
+import Image from "next/image";
 import { AlertOctagon, CheckCircle2, FileText, Play, ScanBarcode } from "lucide-react";
 import { useStoreData } from "@/components/providers/StoreContext";
 import { ModalDialog } from "@/components/ui/ConfirmDialog";
@@ -97,18 +98,18 @@ export default function CheckoutMonitorPage() {
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Checkout Verification Simulator */}
         <PanelCard>
-          <h2 className="flex items-center gap-2 text-sm font-semibold text-white">
-            <ScanBarcode className="h-4 w-4 text-cyan-400" />
+          <h2 className="flex items-center gap-2 text-sm font-semibold text-slate-950">
+            <ScanBarcode className="h-4 w-4 text-sky-600" />
             Process / Verify Checkout Lane Event
           </h2>
           <form onSubmit={processCheckout} className="mt-4 space-y-3 text-xs">
             <div>
-              <label htmlFor="chk-sku" className="mb-1 block text-slate-300">Product</label>
+              <label htmlFor="chk-sku" className="mb-1 block text-slate-700">Product</label>
               <select
                 id="chk-sku"
                 value={selectedSku}
                 onChange={(e) => setSelectedSku(e.target.value)}
-                className="min-h-[40px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3 text-white"
+                className="min-h-[40px] w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-900 focus:border-sky-500 focus:outline-none"
               >
                 {(state?.products ?? []).map((p) => (
                   <option key={p.id} value={p.sku}>
@@ -118,9 +119,32 @@ export default function CheckoutMonitorPage() {
               </select>
             </div>
 
+            {selectedProduct && (
+              <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 p-2.5">
+                <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg border border-slate-200 bg-white p-1">
+                  <Image
+                    src={selectedProduct.imageUrl}
+                    alt={selectedProduct.name}
+                    fill
+                    className="object-contain p-0.5"
+                    sizes="48px"
+                  />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-semibold text-slate-950">{selectedProduct.name}</p>
+                  <p className="font-mono text-[11px] text-slate-500">
+                    {selectedProduct.sku} • Barcode {selectedProduct.barcode}
+                  </p>
+                  <p className="text-[11px] text-sky-700">
+                    {formatINR(selectedProduct.sellingPrice)} • Stock: {selectedProduct.availableQuantity} units
+                  </p>
+                </div>
+              </div>
+            )}
+
             <div className="grid grid-cols-3 gap-2.5">
               <div>
-                <label htmlFor="chk-qty" className="mb-1 block text-slate-300">Qty</label>
+                <label htmlFor="chk-qty" className="mb-1 block text-slate-700">Qty</label>
                 <input
                   id="chk-qty"
                   type="number"
@@ -128,11 +152,11 @@ export default function CheckoutMonitorPage() {
                   max="10"
                   value={qty}
                   onChange={(e) => setQty(e.target.value)}
-                  className="min-h-[40px] w-full rounded-lg border border-slate-700 bg-slate-900 px-2.5 text-white"
+                  className="min-h-[40px] w-full rounded-lg border border-slate-300 bg-white px-2.5 text-slate-900 focus:border-sky-500 focus:outline-none"
                 />
               </div>
               <div>
-                <label htmlFor="chk-conf" className="mb-1 block text-slate-300">Vision %</label>
+                <label htmlFor="chk-conf" className="mb-1 block text-slate-700">Vision %</label>
                 <input
                   id="chk-conf"
                   type="number"
@@ -142,11 +166,11 @@ export default function CheckoutMonitorPage() {
                   disabled={simulateMismatch}
                   value={simulateMismatch ? "61.5" : confidence}
                   onChange={(e) => setConfidence(e.target.value)}
-                  className="min-h-[40px] w-full rounded-lg border border-slate-700 bg-slate-900 px-2.5 text-white disabled:opacity-60"
+                  className="min-h-[40px] w-full rounded-lg border border-slate-300 bg-white px-2.5 text-slate-900 focus:border-sky-500 focus:outline-none disabled:bg-slate-100 disabled:text-slate-500"
                 />
               </div>
               <div>
-                <label htmlFor="chk-gst" className="mb-1 block text-slate-300">GST %</label>
+                <label htmlFor="chk-gst" className="mb-1 block text-slate-700">GST %</label>
                 <input
                   id="chk-gst"
                   type="number"
@@ -155,12 +179,12 @@ export default function CheckoutMonitorPage() {
                   max="28"
                   value={gstRate}
                   onChange={(e) => setGstRate(e.target.value)}
-                  className="min-h-[40px] w-full rounded-lg border border-slate-700 bg-slate-900 px-2.5 text-white"
+                  className="min-h-[40px] w-full rounded-lg border border-slate-300 bg-white px-2.5 text-slate-900 focus:border-sky-500 focus:outline-none"
                 />
               </div>
             </div>
 
-            <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-2.5 text-amber-200">
+            <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 p-2.5 text-amber-900">
               <input
                 type="checkbox"
                 checked={simulateMismatch}
@@ -179,29 +203,29 @@ export default function CheckoutMonitorPage() {
 
         {/* Active Disputes */}
         <PanelCard className="lg:col-span-2">
-          <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-white">
-            <AlertOctagon className="h-4 w-4 text-amber-400" />
+          <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-950">
+            <AlertOctagon className="h-4 w-4 text-amber-600" />
             Checkout Anomaly & Review Queue
           </h2>
           <div className="space-y-3">
             {(state?.checkoutDisputes ?? []).map((d) => (
               <div
                 key={d.id}
-                className="rounded-xl border border-amber-500/25 bg-slate-900/70 p-3.5 text-xs"
+                className="rounded-xl border border-amber-200 bg-amber-50/50 p-3.5 text-xs"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono font-bold text-amber-300">{d.sessionCode}</span>
+                    <span className="font-mono font-bold text-amber-800">{d.sessionCode}</span>
                     <StatusBadge tone={d.status === "pending_approval" ? "amber" : "green"}>
                       {d.status}
                     </StatusBadge>
                     <StatusBadge tone="red">{d.disputeType}</StatusBadge>
                   </div>
-                  <span className="text-slate-400">{formatRelativeTime(d.createdAt)}</span>
+                  <span className="text-slate-500">{formatRelativeTime(d.createdAt)}</span>
                 </div>
-                <p className="mt-2 text-slate-200">{d.description}</p>
+                <p className="mt-2 text-slate-700">{d.description}</p>
                 {d.resolvedBy && (
-                  <p className="mt-1.5 text-[11px] text-emerald-400">
+                  <p className="mt-1.5 text-[11px] text-emerald-700">
                     Resolved by {d.resolvedBy}: {d.resolutionNotes}
                   </p>
                 )}
@@ -213,13 +237,13 @@ export default function CheckoutMonitorPage() {
 
       {/* Checkout Sessions Table */}
       <PanelCard>
-        <h2 id="chk-table-title" className="mb-4 text-sm font-semibold text-white">
+        <h2 id="chk-table-title" className="mb-4 text-sm font-semibold text-slate-950">
           Checkout Sessions & POS Item Verification Log
         </h2>
         <div tabIndex={0} role="region" aria-labelledby="chk-table-title" className="table-wrapper">
           <table className="retail-table retail-table-responsive text-left text-xs">
             <thead>
-              <tr className="border-b border-slate-800 text-slate-400">
+              <tr className="border-b border-slate-200 bg-slate-50 text-slate-600">
                 <th className="px-3 py-2.5">Checkout ID</th>
                 <th className="px-3 py-2.5">Cashier / Lane</th>
                 <th className="px-3 py-2.5">Scanned Items</th>
@@ -230,32 +254,48 @@ export default function CheckoutMonitorPage() {
                 <th className="px-3 py-2.5 text-right">Invoice</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/70">
+            <tbody className="divide-y divide-slate-200">
               {(state?.checkoutSessions ?? []).map((chk) => {
                 const first = chk.items[0];
+                const firstProduct = (state?.products ?? []).find((p) => p.sku === first?.sku);
                 return (
-                  <tr key={chk.id} className="hover:bg-slate-900/50">
-                    <th className="px-3 py-3 font-mono font-semibold text-cyan-300">
+                  <tr key={chk.id} className="hover:bg-sky-50/40">
+                    <th className="px-3 py-3 font-mono font-semibold text-sky-700">
                       {chk.sessionCode}
                     </th>
-                    <td data-label="Cashier" className="px-3 py-3 text-slate-300">
+                    <td data-label="Cashier" className="px-3 py-3 text-slate-700">
                       <p>{chk.cashierId}</p>
                       <p className="text-[11px] text-slate-500">{chk.cameraId}</p>
                     </td>
-                    <td data-label="Items" className="px-3 py-3 text-slate-200">
-                      {chk.items.map((it) => `${it.sku} (×${it.quantity})`).join(", ")}
+                    <td data-label="Items" className="px-3 py-3 text-slate-800">
+                      <div className="flex items-center gap-2.5">
+                        {firstProduct && (
+                          <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded-md border border-slate-200 bg-white">
+                            <Image
+                              src={firstProduct.imageUrl}
+                              alt={firstProduct.name}
+                              fill
+                              className="object-contain p-0.5"
+                              sizes="32px"
+                            />
+                          </div>
+                        )}
+                        <span>
+                          {chk.items.map((it) => `${it.sku} (×${it.quantity})`).join(", ")}
+                        </span>
+                      </div>
                     </td>
-                    <td data-label="Price Check" className="px-3 py-3 font-mono text-slate-300">
+                    <td data-label="Price Check" className="px-3 py-3 font-mono text-slate-700">
                       {first
                         ? `${formatINR(first.expectedPrice)} / ${formatINR(first.posPrice)}`
                         : "—"}
                     </td>
-                    <td data-label="Vision Conf" className="px-3 py-3 font-mono">
-                      <span className={chk.visualConfidence < 80 ? "text-amber-400" : "text-emerald-400"}>
+                    <td data-label="Vision Conf" className="px-3 py-3 font-mono font-semibold">
+                      <span className={chk.visualConfidence < 80 ? "text-amber-700" : "text-emerald-700"}>
                         {chk.visualConfidence}%
                       </span>
                     </td>
-                    <td data-label="Total" className="px-3 py-3 font-semibold text-white">
+                    <td data-label="Total" className="px-3 py-3 font-semibold text-slate-950">
                       {formatINR(chk.totalAmount)}
                     </td>
                     <td data-label="Status" className="px-3 py-3">
@@ -291,52 +331,68 @@ export default function CheckoutMonitorPage() {
       >
         {invoiceSession && (
           <div className="space-y-4 text-xs">
-            <div className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-2.5 text-center font-semibold text-amber-200">
+            <div className="rounded-lg border border-amber-200 bg-amber-50 p-2.5 text-center font-semibold text-amber-900">
               SIMULATED DEMO INVOICE — NOT A LEGALLY ISSUED GST TAX INVOICE
             </div>
 
-            <div className="flex justify-between border-b border-slate-800 pb-3">
+            <div className="flex justify-between border-b border-slate-200 pb-3">
               <div>
-                <p className="font-bold text-white">{state?.store.name}</p>
-                <p className="text-slate-400">{state?.store.location}</p>
-                <p className="font-mono text-slate-400">DEMO-GSTIN: 29SYNTHETIC01Z5</p>
+                <p className="font-bold text-slate-950">{state?.store.name}</p>
+                <p className="text-slate-600">{state?.store.location}</p>
+                <p className="font-mono text-slate-500">DEMO-GSTIN: 29SYNTHETIC01Z5</p>
               </div>
               <div className="text-right">
-                <p className="font-mono font-semibold text-cyan-300">{invoiceSession.sessionCode}</p>
-                <p className="text-slate-400">{new Date(invoiceSession.createdAt).toLocaleString()}</p>
+                <p className="font-mono font-semibold text-sky-700">{invoiceSession.sessionCode}</p>
+                <p className="text-slate-500">{new Date(invoiceSession.createdAt).toLocaleString()}</p>
               </div>
             </div>
 
-            <div className="space-y-2 border-b border-slate-800 pb-3">
-              {invoiceSession.items.map((it) => (
-                <div key={it.id} className="flex justify-between">
-                  <div>
-                    <p className="font-medium text-slate-100">
-                      {it.productName} ({it.sku})
-                    </p>
-                    <p className="text-[11px] text-slate-400">
-                      Barcode: {it.scannedBarcode} • Qty: {it.quantity} × {formatINR(it.posPrice)}
-                    </p>
+            <div className="space-y-2 border-b border-slate-200 pb-3">
+              {invoiceSession.items.map((it) => {
+                const prod = (state?.products ?? []).find((p) => p.sku === it.sku);
+                return (
+                  <div key={it.id} className="flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2.5">
+                      {prod && (
+                        <div className="relative h-8 w-8 shrink-0 overflow-hidden rounded border border-slate-200 bg-white">
+                          <Image
+                            src={prod.imageUrl}
+                            alt={it.productName}
+                            fill
+                            className="object-contain p-0.5"
+                            sizes="32px"
+                          />
+                        </div>
+                      )}
+                      <div>
+                        <p className="font-medium text-slate-950">
+                          {it.productName} ({it.sku})
+                        </p>
+                        <p className="text-[11px] text-slate-500">
+                          Barcode: {it.scannedBarcode} • Qty: {it.quantity} × {formatINR(it.posPrice)}
+                        </p>
+                      </div>
+                    </div>
+                    <span className="font-mono font-semibold text-slate-950">
+                      {formatINR(it.posPrice * it.quantity)}
+                    </span>
                   </div>
-                  <span className="font-mono font-semibold text-slate-100">
-                    {formatINR(it.posPrice * it.quantity)}
-                  </span>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="space-y-1 text-right">
-              <p className="text-slate-400">Subtotal: {formatINR(invoiceSession.subtotal)}</p>
-              <p className="text-slate-400">
+              <p className="text-slate-600">Subtotal: {formatINR(invoiceSession.subtotal)}</p>
+              <p className="text-slate-600">
                 CGST + SGST: {formatINR(invoiceSession.gstAmount)}
               </p>
-              <p className="text-base font-bold text-white">
+              <p className="text-base font-bold text-slate-950">
                 Grand Total: {formatINR(invoiceSession.totalAmount)}
               </p>
             </div>
 
             <div className="flex items-center justify-between pt-2">
-              <span className="inline-flex items-center gap-1 text-emerald-400">
+              <span className="inline-flex items-center gap-1 font-medium text-emerald-700">
                 <CheckCircle2 className="h-4 w-4" />
                 CV Confidence: {invoiceSession.visualConfidence}%
               </span>

@@ -37,46 +37,46 @@ export default function SuppliersPage() {
               <div className="space-y-3">
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-blue-500/25 bg-blue-500/10 text-cyan-300">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-sky-200 bg-sky-50 text-sky-700">
                       <Truck className="h-4 w-4" />
                     </div>
                     <div>
-                      <h2 className="text-sm font-bold text-white">{sup.name}</h2>
-                      <p className="text-xs text-slate-400">{sup.contactName}</p>
+                      <h2 className="text-sm font-bold text-slate-950">{sup.name}</h2>
+                      <p className="text-xs text-slate-500">{sup.contactName}</p>
                     </div>
                   </div>
                   <StatusBadge tone="green">{sup.status}</StatusBadge>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2 rounded-lg border border-slate-800 bg-slate-900/60 p-2.5 text-center text-xs">
+                <div className="grid grid-cols-3 gap-2 rounded-lg border border-slate-200 bg-slate-50 p-2.5 text-center text-xs">
                   <div>
-                    <p className="text-[11px] text-slate-400">Lead Time</p>
-                    <p className="font-mono font-bold text-white">{sup.avgLeadTimeDays}d</p>
+                    <p className="text-[11px] text-slate-500">Lead Time</p>
+                    <p className="font-mono font-bold text-slate-950">{sup.avgLeadTimeDays}d</p>
                   </div>
                   <div>
-                    <p className="text-[11px] text-slate-400">MOQ</p>
-                    <p className="font-mono font-bold text-white">{sup.minOrderQuantity}</p>
+                    <p className="text-[11px] text-slate-500">MOQ</p>
+                    <p className="font-mono font-bold text-slate-950">{sup.minOrderQuantity}</p>
                   </div>
                   <div>
-                    <p className="text-[11px] text-slate-400">Fulfillment</p>
-                    <p className="font-mono font-bold text-emerald-400">{sup.fulfillmentRatePct}%</p>
+                    <p className="text-[11px] text-slate-500">Fulfillment</p>
+                    <p className="font-mono font-bold text-emerald-700">{sup.fulfillmentRatePct}%</p>
                   </div>
                 </div>
 
-                <div className="space-y-1 text-xs text-slate-300">
+                <div className="space-y-1 text-xs text-slate-700">
                   <p className="flex items-center gap-2">
-                    <Mail className="h-3.5 w-3.5 text-slate-400" /> {sup.contactEmail}
+                    <Mail className="h-3.5 w-3.5 text-slate-500" /> {sup.contactEmail}
                   </p>
                   <p className="flex items-center gap-2">
-                    <Phone className="h-3.5 w-3.5 text-slate-400" /> {sup.contactPhone}
+                    <Phone className="h-3.5 w-3.5 text-slate-500" /> {sup.contactPhone}
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between border-t border-slate-800 pt-3 text-xs">
-                <span className="text-slate-400">
+              <div className="flex items-center justify-between border-t border-slate-200 pt-3 text-xs">
+                <span className="text-slate-600">
                   {suppliedProducts.length} SKUs{" "}
-                  {lowCount > 0 && <strong className="text-amber-300">({lowCount} low/out)</strong>}
+                  {lowCount > 0 && <strong className="text-amber-700">({lowCount} low/out)</strong>}
                 </span>
                 <SecondaryButton
                   type="button"
@@ -99,9 +99,9 @@ export default function SuppliersPage() {
       >
         {selectedSupplier && (
           <div className="space-y-4 text-xs">
-            <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-800 bg-slate-900/60 p-3">
-              <span className="flex items-center gap-1.5 text-slate-300">
-                <Building2 className="h-4 w-4 text-cyan-400" />
+            <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-200 bg-slate-50 p-3">
+              <span className="flex items-center gap-1.5 text-slate-700">
+                <Building2 className="h-4 w-4 text-sky-600" />
                 Interface Mode:
               </span>
               <StatusBadge tone="amber">
@@ -111,7 +111,7 @@ export default function SuppliersPage() {
               </StatusBadge>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 text-slate-300">
+            <div className="grid grid-cols-2 gap-3 text-slate-700">
               <p>
                 <span className="text-slate-500">Primary Contact:</span> {selectedSupplier.contactName}
               </p>
@@ -123,18 +123,18 @@ export default function SuppliersPage() {
             </div>
 
             <div>
-              <h3 className="mb-2 font-semibold text-white">Supplied Store SKUs</h3>
+              <h3 className="mb-2 font-semibold text-slate-950">Supplied Store SKUs</h3>
               <div className="max-h-56 space-y-2 overflow-y-auto">
                 {(state?.products ?? [])
                   .filter((p) => p.primarySupplierId === selectedSupplier.id)
                   .map((p) => (
                     <div
                       key={p.id}
-                      className="flex items-center justify-between rounded-lg border border-slate-800 bg-slate-900/70 px-3 py-2"
+                      className="flex items-center justify-between rounded-lg border border-slate-200 bg-slate-50 px-3 py-2"
                     >
                       <div>
-                        <p className="font-medium text-white">{p.name}</p>
-                        <p className="font-mono text-[11px] text-cyan-300">{p.sku}</p>
+                        <p className="font-medium text-slate-900">{p.name}</p>
+                        <p className="font-mono text-[11px] text-sky-700">{p.sku}</p>
                       </div>
                       <StatusBadge
                         tone={

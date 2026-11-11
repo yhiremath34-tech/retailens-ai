@@ -105,7 +105,7 @@ export default function AnalyticsPage() {
               aria-label="Date window filter"
               value={dateWindow}
               onChange={(e) => setDateWindow(e.target.value as "24h" | "7d" | "30d")}
-              className="min-h-[40px] rounded-lg border border-slate-700 bg-slate-900 px-3 text-xs text-slate-200 no-print"
+              className="min-h-[40px] rounded-lg border border-slate-300 bg-white px-3 text-xs text-slate-800 no-print"
             >
               <option value="24h">Last 24 Hours</option>
               <option value="7d">Last 7 Days</option>
@@ -127,8 +127,8 @@ export default function AnalyticsPage() {
         <>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <PanelCard>
-              <p className="text-xs text-slate-400">Verified Checkout Revenue</p>
-              <p className="mt-1.5 text-xl font-bold text-emerald-400">
+              <p className="text-xs text-slate-500">Verified Checkout Revenue</p>
+              <p className="mt-1.5 text-xl font-bold text-emerald-700">
                 {formatINR(analytics.totalSales)}
               </p>
               <p className="mt-1 text-[11px] text-slate-500">
@@ -136,8 +136,8 @@ export default function AnalyticsPage() {
               </p>
             </PanelCard>
             <PanelCard>
-              <p className="text-xs text-slate-400">3-Day Expiry Cost Exposure</p>
-              <p className="mt-1.5 text-xl font-bold text-amber-300">
+              <p className="text-xs text-slate-500">3-Day Expiry Cost Exposure</p>
+              <p className="mt-1.5 text-xl font-bold text-amber-700">
                 {formatINR(analytics.expiringExposure)}
               </p>
               <p className="mt-1 text-[11px] text-slate-500">
@@ -145,15 +145,15 @@ export default function AnalyticsPage() {
               </p>
             </PanelCard>
             <PanelCard>
-              <p className="text-xs text-slate-400">Checkout Anomaly Disputes</p>
-              <p className="mt-1.5 text-xl font-bold text-rose-400">{analytics.anomalyCount}</p>
+              <p className="text-xs text-slate-500">Checkout Anomaly Disputes</p>
+              <p className="mt-1.5 text-xl font-bold text-rose-700">{analytics.anomalyCount}</p>
               <p className="mt-1 text-[11px] text-slate-500">
                 Zero unauthorized inventory mutations
               </p>
             </PanelCard>
             <PanelCard>
-              <p className="text-xs text-slate-400">Agent Operational Efficiency</p>
-              <p className="mt-1.5 text-xl font-bold text-cyan-300">
+              <p className="text-xs text-slate-500">Agent Operational Efficiency</p>
+              <p className="mt-1.5 text-xl font-bold text-sky-700">
                 {analytics.agentSuccessRate}%
               </p>
               <p className="mt-1 text-[11px] text-slate-500">
@@ -163,13 +163,13 @@ export default function AnalyticsPage() {
           </div>
 
           {/* AI Daily Summary */}
-          <PanelCard className="border-cyan-500/25 bg-cyan-950/15">
+          <PanelCard className="border-sky-200 bg-sky-50/70">
             <div className="flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-cyan-400" />
-              <h2 className="text-sm font-semibold text-white">AI-Generated Daily Operational Brief</h2>
+              <Sparkles className="h-4 w-4 text-sky-600" />
+              <h2 className="text-sm font-semibold text-slate-950">AI-Generated Daily Operational Brief</h2>
               <StatusBadge tone="cyan">Grounded in Persisted Data</StatusBadge>
             </div>
-            <p className="mt-2 text-xs leading-relaxed text-slate-300">
+            <p className="mt-2 text-xs leading-relaxed text-slate-700">
               Across {state?.products.length} tracked SKUs at {state?.store.name}, verified checkout sales
               total {formatINR(analytics.totalSales)} across {analytics.completedCount} sessions.{" "}
               {analytics.stockoutCount} out-of-stock SKUs and {formatINR(analytics.expiringExposure)} in
@@ -181,31 +181,31 @@ export default function AnalyticsPage() {
 
           <div className="grid gap-5 lg:grid-cols-2">
             <PanelCard>
-              <h2 className="text-sm font-semibold text-white">Category Inventory Valuation (₹)</h2>
+              <h2 className="text-sm font-semibold text-slate-950">Category Inventory Valuation (₹)</h2>
               <div className="mt-4 h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={analytics.categoryDemand}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                    <XAxis dataKey="category" tick={{ fill: "#94a3b8", fontSize: 10 }} />
-                    <YAxis tick={{ fill: "#94a3b8", fontSize: 11 }} />
-                    <Tooltip contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155" }} />
-                    <Bar dataKey="stockValue" name="Retail Value (₹)" fill="#3b82f6" radius={[6, 6, 0, 0]} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                    <XAxis dataKey="category" tick={{ fill: "#475569", fontSize: 10 }} />
+                    <YAxis tick={{ fill: "#475569", fontSize: 11 }} />
+                    <Tooltip contentStyle={{ backgroundColor: "#ffffff", borderColor: "#cbd5e1", color: "#0f172a", borderRadius: "0.75rem" }} />
+                    <Bar dataKey="stockValue" name="Retail Value (₹)" fill="#38bdf8" radius={[6, 6, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
             </PanelCard>
 
             <PanelCard>
-              <h2 className="text-sm font-semibold text-white">Supplier Fulfillment & Lead Time</h2>
+              <h2 className="text-sm font-semibold text-slate-950">Supplier Fulfillment & Lead Time</h2>
               <div className="mt-4 h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={analytics.supplierPerf}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                    <XAxis dataKey="name" tick={{ fill: "#94a3b8", fontSize: 10 }} />
-                    <YAxis tick={{ fill: "#94a3b8", fontSize: 11 }} />
-                    <Tooltip contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155" }} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                    <XAxis dataKey="name" tick={{ fill: "#475569", fontSize: 10 }} />
+                    <YAxis tick={{ fill: "#475569", fontSize: 11 }} />
+                    <Tooltip contentStyle={{ backgroundColor: "#ffffff", borderColor: "#cbd5e1", color: "#0f172a", borderRadius: "0.75rem" }} />
                     <Legend />
-                    <Bar dataKey="fulfillment" name="Fulfillment %" fill="#10b981" radius={[6, 6, 0, 0]} />
+                    <Bar dataKey="fulfillment" name="Fulfillment %" fill="#059669" radius={[6, 6, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>

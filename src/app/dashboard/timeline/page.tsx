@@ -80,8 +80,8 @@ export default function EventTimelinePage() {
             onClick={() => setFilter(f.id)}
             className={`rounded-lg px-3 py-1.5 text-xs font-medium transition ${
               filter === f.id
-                ? "bg-blue-600 text-white"
-                : "border border-slate-800 bg-slate-900 text-slate-300 hover:bg-slate-800"
+                ? "border border-sky-400 bg-sky-300 font-semibold text-slate-950"
+                : "border border-slate-200 bg-white text-slate-700 hover:bg-sky-50"
             }`}
           >
             {f.label}
@@ -94,15 +94,15 @@ export default function EventTimelinePage() {
           {timeline.map((ev) => (
             <div
               key={ev.id}
-              className="flex flex-col gap-1.5 rounded-xl border border-slate-800/80 bg-slate-900/60 p-3.5 text-xs sm:flex-row sm:items-start sm:justify-between"
+              className="flex flex-col gap-1.5 rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-xs sm:flex-row sm:items-start sm:justify-between"
             >
               <div className="space-y-1">
                 <div className="flex flex-wrap items-center gap-2">
-                  <Activity className="h-3.5 w-3.5 text-cyan-400" />
+                  <Activity className="h-3.5 w-3.5 text-sky-600" />
                   <StatusBadge tone={ev.tone}>{ev.source}</StatusBadge>
-                  <span className="font-semibold text-white">{ev.title}</span>
+                  <span className="font-semibold text-slate-950">{ev.title}</span>
                 </div>
-                <p className="text-slate-400">{ev.detail}</p>
+                <p className="text-slate-600">{ev.detail}</p>
               </div>
               <span className="shrink-0 font-mono text-[11px] text-slate-500">
                 {new Date(ev.timestamp).toLocaleTimeString()}

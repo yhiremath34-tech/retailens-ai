@@ -92,12 +92,12 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         {toasts.map((t) => {
           const border =
             t.kind === "success"
-              ? "border-emerald-500/40 bg-emerald-950/90"
+              ? "border-emerald-300 bg-emerald-50/95"
               : t.kind === "error"
-              ? "border-rose-500/40 bg-rose-950/90"
+              ? "border-rose-300 bg-rose-50/95"
               : t.kind === "warning"
-              ? "border-amber-500/40 bg-amber-950/90"
-              : "border-blue-500/40 bg-slate-900/95";
+              ? "border-amber-300 bg-amber-50/95"
+              : "border-sky-300 bg-white/95";
           const Icon =
             t.kind === "success"
               ? CheckCircle2
@@ -108,28 +108,28 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
               : Info;
           const iconColor =
             t.kind === "success"
-              ? "text-emerald-400"
+              ? "text-emerald-600"
               : t.kind === "error"
-              ? "text-rose-400"
+              ? "text-rose-600"
               : t.kind === "warning"
-              ? "text-amber-400"
-              : "text-cyan-400";
+              ? "text-amber-600"
+              : "text-sky-600";
 
           return (
             <div
               key={t.id}
-              className={`flex items-start gap-3 rounded-xl border px-3.5 py-3 shadow-xl backdrop-blur ${border}`}
+              className={`flex items-start gap-3 rounded-xl border px-3.5 py-3 shadow-lg backdrop-blur ${border}`}
             >
               <Icon className={`mt-0.5 h-4 w-4 shrink-0 ${iconColor}`} />
               <div className="min-w-0 flex-1">
-                <p className="text-sm font-semibold text-slate-100">{t.title}</p>
-                {t.message && <p className="mt-0.5 text-xs text-slate-300">{t.message}</p>}
+                <p className="text-sm font-semibold text-slate-900">{t.title}</p>
+                {t.message && <p className="mt-0.5 text-xs text-slate-600">{t.message}</p>}
               </div>
               <button
                 type="button"
                 onClick={() => dismiss(t.id)}
                 aria-label="Close notification"
-                className="rounded-md p-1 text-slate-400 hover:bg-white/10 hover:text-slate-100"
+                className="rounded-md p-1 text-slate-500 hover:bg-slate-100 hover:text-slate-900"
               >
                 <X className="h-3.5 w-3.5" />
               </button>

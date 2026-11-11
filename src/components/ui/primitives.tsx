@@ -11,7 +11,7 @@ export function PanelCard({
   return (
     <div
       className={cn(
-        "rounded-xl border border-slate-800/90 bg-[#0f1623] p-5 shadow-sm transition-colors",
+        "rounded-xl border border-slate-200 bg-white p-5 text-slate-900 shadow-sm transition-colors",
         className
       )}
     >
@@ -30,12 +30,12 @@ export function StatusBadge({
   className?: string;
 }) {
   const styles: Record<string, string> = {
-    neutral: "border-slate-700 bg-slate-800/80 text-slate-300",
-    blue: "border-blue-500/30 bg-blue-500/15 text-blue-300",
-    cyan: "border-cyan-500/30 bg-cyan-500/15 text-cyan-300",
-    green: "border-emerald-500/30 bg-emerald-500/15 text-emerald-300",
-    amber: "border-amber-500/30 bg-amber-500/15 text-amber-300",
-    red: "border-rose-500/30 bg-rose-500/15 text-rose-300",
+    neutral: "border-slate-300 bg-slate-100 text-slate-800",
+    blue: "border-sky-300 bg-sky-100 text-sky-950",
+    cyan: "border-sky-300 bg-sky-50 text-sky-900",
+    green: "border-emerald-300 bg-emerald-50 text-emerald-900",
+    amber: "border-amber-300 bg-amber-50 text-amber-900",
+    red: "border-rose-300 bg-rose-50 text-rose-900",
   };
   return (
     <span
@@ -59,7 +59,7 @@ export function PrimaryButton({
     <button
       {...props}
       className={cn(
-        "inline-flex min-h-[40px] items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50",
+        "inline-flex min-h-[40px] items-center justify-center gap-2 rounded-lg border border-sky-400 bg-sky-300 px-4 py-2 text-sm font-semibold text-slate-950 shadow-sm transition hover:bg-sky-400 active:bg-sky-500 disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
     >
@@ -77,7 +77,7 @@ export function SecondaryButton({
     <button
       {...props}
       className={cn(
-        "inline-flex min-h-[40px] items-center justify-center gap-2 rounded-lg border border-slate-700 bg-slate-900/90 px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-slate-600 hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50",
+        "inline-flex min-h-[40px] items-center justify-center gap-2 rounded-lg border border-sky-200 bg-sky-50/70 px-4 py-2 text-sm font-medium text-sky-950 transition hover:border-sky-300 hover:bg-sky-100 disabled:cursor-not-allowed disabled:opacity-50",
         className
       )}
     >
@@ -98,8 +98,8 @@ export function SectionHeader({
   return (
     <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight text-slate-50">{title}</h1>
-        {subtitle && <p className="mt-1 max-w-3xl text-sm text-slate-400">{subtitle}</p>}
+        <h1 className="text-2xl font-bold tracking-tight text-slate-950">{title}</h1>
+        {subtitle && <p className="mt-1 max-w-3xl text-sm text-slate-600">{subtitle}</p>}
       </div>
       {actions && <div className="flex flex-wrap items-center gap-2.5">{actions}</div>}
     </div>
@@ -109,7 +109,7 @@ export function SectionHeader({
 export function SkeletonBlock({ className }: { className?: string }) {
   return (
     <div
-      className={cn("animate-pulse rounded-xl border border-slate-800 bg-slate-900/70", className)}
+      className={cn("animate-pulse rounded-xl border border-slate-200 bg-slate-100", className)}
     />
   );
 }

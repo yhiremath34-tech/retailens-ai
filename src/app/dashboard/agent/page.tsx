@@ -81,7 +81,7 @@ export default function AgentWorkspacePage() {
       {/* Objective Dispatch Form */}
       <PanelCard>
         <form onSubmit={executeAgentRun} className="space-y-3">
-          <label htmlFor="agent-obj" className="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+          <label htmlFor="agent-obj" className="block text-xs font-semibold uppercase tracking-wider text-slate-700">
             Operational Objective
           </label>
           <div className="flex flex-wrap gap-2">
@@ -90,7 +90,7 @@ export default function AgentWorkspacePage() {
                 key={idx}
                 type="button"
                 onClick={() => setObjective(preset)}
-                className="rounded-lg border border-slate-800 bg-slate-900/70 px-3 py-1.5 text-left text-[11px] text-slate-300 hover:border-blue-500/40 hover:text-white"
+                className="rounded-lg border border-sky-200 bg-sky-50/70 px-3 py-1.5 text-left text-[11px] font-medium text-sky-950 transition hover:border-sky-300 hover:bg-sky-100"
               >
                 Preset {idx + 1}: {preset.slice(0, 56)}...
               </button>
@@ -103,7 +103,7 @@ export default function AgentWorkspacePage() {
               required
               value={objective}
               onChange={(e) => setObjective(e.target.value)}
-              className="min-h-[44px] flex-1 rounded-lg border border-slate-700 bg-slate-900 px-3.5 text-sm text-white"
+              className="min-h-[44px] flex-1 rounded-lg border border-slate-300 bg-white px-3.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-sky-500 focus:outline-none"
             />
             <PrimaryButton type="submit" disabled={running} className="shrink-0">
               <Play className="h-4 w-4" />
@@ -116,7 +116,7 @@ export default function AgentWorkspacePage() {
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Run History Selector */}
         <PanelCard className="space-y-3">
-          <h2 className="text-sm font-semibold text-white">Recent Agent Runs</h2>
+          <h2 className="text-sm font-semibold text-slate-950">Recent Agent Runs</h2>
           <div className="max-h-[460px] space-y-2 overflow-y-auto">
             {(state?.agentRuns ?? []).map((run) => (
               <button
@@ -125,8 +125,8 @@ export default function AgentWorkspacePage() {
                 onClick={() => setSelectedRunId(run.id)}
                 className={`w-full rounded-xl border p-3 text-left text-xs transition ${
                   activeRun?.id === run.id
-                    ? "border-blue-500/50 bg-blue-500/10"
-                    : "border-slate-800 bg-slate-900/60 hover:border-slate-700"
+                    ? "border-sky-400 bg-sky-100/80 text-slate-950"
+                    : "border-slate-200 bg-slate-50 text-slate-700 hover:border-sky-300 hover:bg-sky-50/50"
                 }`}
               >
                 <div className="flex items-center justify-between gap-2">
@@ -145,8 +145,8 @@ export default function AgentWorkspacePage() {
                     {formatRelativeTime(run.createdAt)}
                   </span>
                 </div>
-                <p className="mt-2 line-clamp-2 font-medium text-slate-100">{run.objective}</p>
-                <p className="mt-1 text-[11px] text-slate-400">
+                <p className="mt-2 line-clamp-2 font-medium text-slate-950">{run.objective}</p>
+                <p className="mt-1 text-[11px] text-slate-500">
                   {run.plannedActions.length} tools • {run.plannerMode}
                 </p>
               </button>
@@ -158,46 +158,46 @@ export default function AgentWorkspacePage() {
         <PanelCard className="lg:col-span-2 space-y-5">
           {activeRun ? (
             <>
-              <div className="flex flex-wrap items-start justify-between gap-3 border-b border-slate-800 pb-4">
+              <div className="flex flex-wrap items-start justify-between gap-3 border-b border-slate-200 pb-4">
                 <div>
                   <div className="flex items-center gap-2">
-                    <Bot className="h-4 w-4 text-cyan-400" />
-                    <span className="text-xs font-mono text-slate-400">RUN {activeRun.id.slice(0, 8)}</span>
+                    <Bot className="h-4 w-4 text-sky-600" />
+                    <span className="text-xs font-mono text-slate-500">RUN {activeRun.id.slice(0, 8)}</span>
                     <StatusBadge
                       tone={activeRun.status === "awaiting_approval" ? "amber" : "green"}
                     >
                       {activeRun.status}
                     </StatusBadge>
                   </div>
-                  <h2 className="mt-1.5 text-base font-bold text-white">{activeRun.objective}</h2>
+                  <h2 className="mt-1.5 text-base font-bold text-slate-950">{activeRun.objective}</h2>
                 </div>
               </div>
 
               <div>
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-600">
                   Reasoning Summary
                 </h3>
-                <p className="mt-1.5 rounded-lg border border-slate-800 bg-slate-900/60 p-3 text-xs leading-relaxed text-slate-200">
+                <p className="mt-1.5 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs leading-relaxed text-slate-700">
                   {activeRun.reasoningSummary}
                 </p>
               </div>
 
               <div>
-                <h3 className="mb-2.5 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                <h3 className="mb-2.5 text-xs font-semibold uppercase tracking-wider text-slate-600">
                   PERCEIVE → REASON → PLAN → ACT → OBSERVE → REMEMBER Trace
                 </h3>
                 <div className="space-y-2.5">
                   {activeRun.steps.map((step) => (
                     <div
                       key={step.id}
-                      className="rounded-lg border border-slate-800 bg-slate-900/70 p-3 text-xs"
+                      className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs"
                     >
                       <div className="flex flex-wrap items-center justify-between gap-2">
                         <div className="flex items-center gap-2">
-                          <span className="rounded bg-blue-500/20 px-2 py-0.5 font-mono text-[10px] font-bold text-cyan-300">
+                          <span className="rounded border border-sky-200 bg-sky-100 px-2 py-0.5 font-mono text-[10px] font-bold text-sky-900">
                             {step.phase}
                           </span>
-                          <span className="font-semibold text-white">{step.title}</span>
+                          <span className="font-semibold text-slate-950">{step.title}</span>
                         </div>
                         {step.status === "awaiting_approval" ? (
                           <StatusBadge tone="amber">
@@ -211,24 +211,24 @@ export default function AgentWorkspacePage() {
                           </StatusBadge>
                         )}
                       </div>
-                      <p className="mt-1.5 text-slate-300">{step.detail}</p>
+                      <p className="mt-1.5 text-slate-600">{step.detail}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
               <div>
-                <h3 className="mb-2.5 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-400">
-                  <Wrench className="h-3.5 w-3.5 text-blue-400" />
+                <h3 className="mb-2.5 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-600">
+                  <Wrench className="h-3.5 w-3.5 text-sky-600" />
                   Validated Tool Executions ({toolExecutionsForRun.length})
                 </h3>
                 <div className="space-y-2">
                   {toolExecutionsForRun.map((te) => (
                     <details
                       key={te.id}
-                      className="rounded-lg border border-slate-800 bg-slate-950/60 p-3 text-xs"
+                      className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs"
                     >
-                      <summary className="flex cursor-pointer items-center justify-between font-mono text-cyan-300">
+                      <summary className="flex cursor-pointer items-center justify-between font-mono font-semibold text-sky-700">
                         <span>{te.toolName}</span>
                         <StatusBadge
                           tone={
@@ -242,18 +242,18 @@ export default function AgentWorkspacePage() {
                           {te.executionStatus}
                         </StatusBadge>
                       </summary>
-                      <div className="mt-2.5 space-y-2 border-t border-slate-800 pt-2 font-mono text-[11px] text-slate-300">
-                        <p className="text-slate-400">Exec ID: {te.id}</p>
-                        <pre className="overflow-x-auto rounded bg-black/40 p-2">
+                      <div className="mt-2.5 space-y-2 border-t border-slate-200 pt-2 font-mono text-[11px] text-slate-700">
+                        <p className="text-slate-500">Exec ID: {te.id}</p>
+                        <pre className="overflow-x-auto rounded border border-slate-200 bg-white p-2 text-slate-800">
                           Input: {JSON.stringify(te.inputArgs, null, 2)}
                         </pre>
                         {te.result && (
-                          <pre className="overflow-x-auto rounded bg-black/40 p-2 text-emerald-300">
+                          <pre className="overflow-x-auto rounded border border-emerald-200 bg-emerald-50/70 p-2 text-emerald-900">
                             Output: {JSON.stringify(te.result, null, 2)}
                           </pre>
                         )}
                         {te.errorDetails && (
-                          <p className="text-rose-400">Error: {te.errorDetails}</p>
+                          <p className="text-rose-700">Error: {te.errorDetails}</p>
                         )}
                       </div>
                     </details>
@@ -262,7 +262,7 @@ export default function AgentWorkspacePage() {
               </div>
 
               {activeRun.finalSummary && (
-                <div className="rounded-lg border border-emerald-500/30 bg-emerald-950/20 p-3 text-xs text-emerald-200">
+                <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-xs text-emerald-900">
                   <strong>Final Summary:</strong> {activeRun.finalSummary}
                 </div>
               )}

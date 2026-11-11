@@ -94,31 +94,31 @@ export default function SettingsPage() {
 
       {/* Transparent System Modes */}
       <PanelCard>
-        <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-white">
-          <Database className="h-4 w-4 text-cyan-400" />
+        <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-950">
+          <Database className="h-4 w-4 text-sky-600" />
           Live Integration & Simulation Status
         </h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 text-xs">
-          <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-3">
-            <p className="text-slate-400">Database Persistence</p>
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+            <p className="text-slate-600">Database Persistence</p>
             <StatusBadge tone={modes?.databaseMode === "supabase" ? "green" : "amber"} className="mt-2">
               {modes?.databaseMode === "supabase" ? "Supabase PostgreSQL" : "Local Persistent Simulation"}
             </StatusBadge>
           </div>
-          <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-3">
-            <p className="text-slate-400">Authentication Provider</p>
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+            <p className="text-slate-600">Authentication Provider</p>
             <StatusBadge tone={modes?.authMode === "supabase" ? "green" : "amber"} className="mt-2">
               {modes?.authMode === "supabase" ? "Supabase Auth" : "Signed Cookie Simulation"}
             </StatusBadge>
           </div>
-          <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-3">
-            <p className="text-slate-400">AI Agent Planner</p>
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+            <p className="text-slate-600">AI Agent Planner</p>
             <StatusBadge tone={modes?.aiPlannerMode === "gemini" ? "blue" : "cyan"} className="mt-2">
               {modes?.aiPlannerMode === "gemini" ? "Gemini Tool Calling" : "Deterministic ReAct"}
             </StatusBadge>
           </div>
-          <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-3">
-            <p className="text-slate-400">Computer Vision Service</p>
+          <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+            <p className="text-slate-600">Computer Vision Service</p>
             <StatusBadge tone={modes?.visionMode === "fastapi_opencv" ? "green" : "amber"} className="mt-2">
               {modes?.visionMode === "fastapi_opencv" ? "FastAPI OpenCV Online" : "CV Simulation Fallback"}
             </StatusBadge>
@@ -129,66 +129,66 @@ export default function SettingsPage() {
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Governance Form */}
         <PanelCard>
-          <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold text-white">
-            <ShieldCheck className="h-4 w-4 text-emerald-400" />
+          <h2 className="mb-4 flex items-center gap-2 text-sm font-semibold text-slate-950">
+            <ShieldCheck className="h-4 w-4 text-emerald-600" />
             Pricing & Approval Policy Guardrails
           </h2>
           <form onSubmit={handleSaveRules} className="space-y-3 text-xs">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label htmlFor="s-margin" className="mb-1 block text-slate-300">Min Gross Margin Floor (%)</label>
+                <label htmlFor="s-margin" className="mb-1 block text-slate-700">Min Gross Margin Floor (%)</label>
                 <input
                   id="s-margin"
                   type="number"
                   step="0.5"
                   value={minMarginPct}
                   onChange={(e) => setMinMarginPct(e.target.value)}
-                  className="min-h-[40px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3 text-white"
+                  className="min-h-[40px] w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-900"
                 />
               </div>
               <div>
-                <label htmlFor="s-disc" className="mb-1 block text-slate-300">Auto-Approve Max Discount (%)</label>
+                <label htmlFor="s-disc" className="mb-1 block text-slate-700">Auto-Approve Max Discount (%)</label>
                 <input
                   id="s-disc"
                   type="number"
                   step="0.5"
                   value={autoDiscountPct}
                   onChange={(e) => setAutoDiscountPct(e.target.value)}
-                  className="min-h-[40px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3 text-white"
+                  className="min-h-[40px] w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-900"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-3 gap-3">
               <div>
-                <label htmlFor="s-exp" className="mb-1 block text-slate-300">Expiry Alert (Days)</label>
+                <label htmlFor="s-exp" className="mb-1 block text-slate-700">Expiry Alert (Days)</label>
                 <input
                   id="s-exp"
                   type="number"
                   value={expiryWindow}
                   onChange={(e) => setExpiryWindow(e.target.value)}
-                  className="min-h-[40px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3 text-white"
+                  className="min-h-[40px] w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-900"
                 />
               </div>
               <div>
-                <label htmlFor="s-po" className="mb-1 block text-slate-300">PO Approval Cap (₹)</label>
+                <label htmlFor="s-po" className="mb-1 block text-slate-700">PO Approval Cap (₹)</label>
                 <input
                   id="s-po"
                   type="number"
                   value={poLimit}
                   onChange={(e) => setPoLimit(e.target.value)}
-                  className="min-h-[40px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3 text-white"
+                  className="min-h-[40px] w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-900"
                 />
               </div>
               <div>
-                <label htmlFor="s-gst" className="mb-1 block text-slate-300">Demo GST Rate (%)</label>
+                <label htmlFor="s-gst" className="mb-1 block text-slate-700">Demo GST Rate (%)</label>
                 <input
                   id="s-gst"
                   type="number"
                   step="0.5"
                   value={gstRate}
                   onChange={(e) => setGstRate(e.target.value)}
-                  className="min-h-[40px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3 text-white"
+                  className="min-h-[40px] w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-900"
                 />
               </div>
             </div>
@@ -202,15 +202,15 @@ export default function SettingsPage() {
 
         {/* Session & Reset Card */}
         <PanelCard className="space-y-4">
-          <h2 className="text-sm font-semibold text-white">Active Session & Demo Reset</h2>
-          <div className="rounded-lg border border-slate-800 bg-slate-900/60 p-3 text-xs space-y-1">
-            <p className="text-slate-300">
-              Signed in as: <strong className="text-white">{session?.fullName}</strong> ({session?.email})
+          <h2 className="text-sm font-semibold text-slate-950">Active Session & Demo Reset</h2>
+          <div className="space-y-1 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs">
+            <p className="text-slate-700">
+              Signed in as: <strong className="text-slate-950">{session?.fullName}</strong> ({session?.email})
             </p>
-            <p className="text-slate-400">Role: {session?.role}</p>
-            <p className="text-slate-400">Store: {state?.store.name}</p>
+            <p className="text-slate-600">Role: {session?.role}</p>
+            <p className="text-slate-600">Store: {state?.store.name}</p>
           </div>
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-600">
             Resetting the demo store restores all 22 synthetic SKUs, 5 suppliers, historical checkout
             sessions, agent memory records, and pending approval cards back to clean baseline state.
           </p>

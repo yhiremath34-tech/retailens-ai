@@ -67,18 +67,18 @@ export default function PurchaseOrdersPage() {
 
       <div className="grid gap-6 lg:grid-cols-3">
         <PanelCard>
-          <h2 className="flex items-center gap-2 text-sm font-semibold text-white">
-            <Plus className="h-4 w-4 text-cyan-400" />
+          <h2 className="flex items-center gap-2 text-sm font-semibold text-slate-950">
+            <Plus className="h-4 w-4 text-sky-600" />
             Draft Replenishment Purchase Order
           </h2>
           <form onSubmit={draftPo} className="mt-4 space-y-3 text-xs">
             <div>
-              <label htmlFor="po-sku" className="mb-1 block text-slate-300">Product SKU</label>
+              <label htmlFor="po-sku" className="mb-1 block text-slate-700">Product SKU</label>
               <select
                 id="po-sku"
                 value={sku}
                 onChange={(e) => setSku(e.target.value)}
-                className="min-h-[40px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3 text-white"
+                className="min-h-[40px] w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-900"
               >
                 {(state?.products ?? []).map((p) => (
                   <option key={p.id} value={p.sku}>
@@ -88,7 +88,7 @@ export default function PurchaseOrdersPage() {
               </select>
             </div>
             <div>
-              <label htmlFor="po-qty" className="mb-1 block text-slate-300">Order Quantity</label>
+              <label htmlFor="po-qty" className="mb-1 block text-slate-700">Order Quantity</label>
               <input
                 id="po-qty"
                 type="number"
@@ -96,18 +96,18 @@ export default function PurchaseOrdersPage() {
                 required
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
-                className="min-h-[40px] w-full rounded-lg border border-slate-700 bg-slate-900 px-3 text-white"
+                className="min-h-[40px] w-full rounded-lg border border-slate-300 bg-white px-3 text-slate-900"
               />
             </div>
             <div>
-              <label htmlFor="po-reason" className="mb-1 block text-slate-300">Justification</label>
+              <label htmlFor="po-reason" className="mb-1 block text-slate-700">Justification</label>
               <textarea
                 id="po-reason"
                 rows={3}
                 required
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
-                className="w-full rounded-lg border border-slate-700 bg-slate-900 p-3 text-white"
+                className="w-full rounded-lg border border-slate-300 bg-white p-3 text-slate-900"
               />
             </div>
             <PrimaryButton type="submit" disabled={submitting} className="w-full">
@@ -118,16 +118,16 @@ export default function PurchaseOrdersPage() {
         </PanelCard>
 
         <PanelCard className="lg:col-span-2 space-y-4">
-          <h2 className="text-sm font-semibold text-white">Purchase Order Ledger</h2>
+          <h2 className="text-sm font-semibold text-slate-950">Purchase Order Ledger</h2>
           <div className="space-y-3">
             {(state?.purchaseOrders ?? []).map((po) => (
               <div
                 key={po.id}
-                className="rounded-xl border border-slate-800 bg-slate-900/60 p-4 text-xs"
+                className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-xs"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-sm font-bold text-cyan-300">{po.poNumber}</span>
+                    <span className="font-mono text-sm font-bold text-sky-700">{po.poNumber}</span>
                     <StatusBadge
                       tone={
                         po.status === "dispatched" || po.status === "approved"
@@ -142,21 +142,21 @@ export default function PurchaseOrdersPage() {
                       {po.status.replace("_", " ")}
                     </StatusBadge>
                   </div>
-                  <span className="font-mono text-sm font-bold text-white">
+                  <span className="font-mono text-sm font-bold text-slate-950">
                     {formatINR(po.totalValue)}
                   </span>
                 </div>
-                <p className="mt-1.5 font-medium text-slate-200">
+                <p className="mt-1.5 font-medium text-slate-800">
                   Supplier: {po.supplierName} • Est Lead Time: {po.estimatedLeadTimeDays} days
                 </p>
-                <p className="mt-1 text-slate-400">{po.reason}</p>
-                <div className="mt-2.5 space-y-1 border-t border-slate-800 pt-2">
+                <p className="mt-1 text-slate-600">{po.reason}</p>
+                <div className="mt-2.5 space-y-1 border-t border-slate-200 pt-2">
                   {po.items.map((it) => (
-                    <div key={it.id} className="flex justify-between text-slate-300">
+                    <div key={it.id} className="flex justify-between text-slate-700">
                       <span>
                         {it.sku} — {it.productName} (×{it.orderedQuantity})
                       </span>
-                      <span className="font-mono">{formatINR(it.lineTotal)}</span>
+                      <span className="font-mono font-medium">{formatINR(it.lineTotal)}</span>
                     </div>
                   ))}
                 </div>

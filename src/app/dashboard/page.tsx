@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   Activity,
@@ -39,7 +40,7 @@ import {
 } from "@/components/ui/primitives";
 import { daysUntilDate, formatINR, formatRelativeTime } from "@/lib/utils";
 
-const CHART_COLORS = ["#3b82f6", "#22d3ee", "#10b981", "#f59e0b", "#ef4444"];
+const CHART_COLORS = ["#0284c7", "#38bdf8", "#10b981", "#f59e0b", "#ef4444"];
 
 export default function OverviewPage() {
   const { state, modes, loading, error, refresh } = useStoreData();
@@ -173,8 +174,8 @@ export default function OverviewPage() {
 
   if (error || !state || !metrics) {
     return (
-      <PanelCard className="border-rose-500/40 bg-rose-950/20">
-        <p className="text-sm font-semibold text-rose-300">
+      <PanelCard className="border-rose-300 bg-rose-50">
+        <p className="text-sm font-semibold text-rose-800">
           Failed to load command center: {error || "Unavailable"}
         </p>
         <SecondaryButton onClick={refresh} className="mt-3">
@@ -199,7 +200,7 @@ export default function OverviewPage() {
             </Link>
             <Link href="/dashboard/agent">
               <SecondaryButton type="button">
-                <Bot className="h-4 w-4 text-cyan-400" />
+                <Bot className="h-4 w-4 text-sky-700" />
                 Open AI Agent
               </SecondaryButton>
             </Link>
@@ -210,23 +211,23 @@ export default function OverviewPage() {
       {/* Top Status Strip */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <PanelCard>
-          <p className="text-xs font-medium text-slate-400">Store Operational Status</p>
+          <p className="text-xs font-medium text-slate-500">Store Operational Status</p>
           <div className="mt-2 flex items-center justify-between">
-            <span className="text-lg font-bold capitalize text-emerald-400">
+            <span className="text-lg font-bold capitalize text-emerald-700">
               {state.store.operationalStatus}
             </span>
-            <CheckCircle2 className="h-5 w-5 text-emerald-400" />
+            <CheckCircle2 className="h-5 w-5 text-emerald-600" />
           </div>
           <p className="mt-1 text-[11px] text-slate-500">{state.store.code} • {state.store.timezone}</p>
         </PanelCard>
 
         <PanelCard>
-          <p className="text-xs font-medium text-slate-400">AI Agent Status</p>
+          <p className="text-xs font-medium text-slate-500">AI Agent Status</p>
           <div className="mt-2 flex items-center justify-between">
-            <span className="text-lg font-bold text-cyan-300">
+            <span className="text-lg font-bold text-sky-700">
               {metrics.pendingApprovals.length > 0 ? "Awaiting Approval" : "Monitoring"}
             </span>
-            <Bot className="h-5 w-5 text-cyan-400" />
+            <Bot className="h-5 w-5 text-sky-600" />
           </div>
           <p className="mt-1 text-[11px] text-slate-500">
             Planner: {modes?.aiPlannerMode === "gemini" ? "Gemini API" : "Deterministic ReAct"}
@@ -234,56 +235,56 @@ export default function OverviewPage() {
         </PanelCard>
 
         <PanelCard>
-          <p className="text-xs font-medium text-slate-400">Tracked SKUs / Units</p>
+          <p className="text-xs font-medium text-slate-500">Tracked SKUs / Units</p>
           <div className="mt-2 flex items-center justify-between">
-            <span className="text-lg font-bold text-white">
+            <span className="text-lg font-bold text-slate-950">
               {metrics.totalSkus} SKUs
             </span>
-            <Package className="h-5 w-5 text-blue-400" />
+            <Package className="h-5 w-5 text-sky-600" />
           </div>
-          <p className="mt-1 text-[11px] text-slate-400">
+          <p className="mt-1 text-[11px] text-slate-500">
             {metrics.availableUnits.toLocaleString("en-IN")} units in store inventory
           </p>
         </PanelCard>
 
         <PanelCard>
-          <p className="text-xs font-medium text-slate-400">Stock & Expiry Alerts</p>
+          <p className="text-xs font-medium text-slate-500">Stock & Expiry Alerts</p>
           <div className="mt-2 flex items-center justify-between">
-            <span className="text-lg font-bold text-amber-300">
+            <span className="text-lg font-bold text-amber-700">
               {metrics.lowStock.length} Low • {metrics.outOfStock.length} Out
             </span>
-            <AlertTriangle className="h-5 w-5 text-amber-400" />
+            <AlertTriangle className="h-5 w-5 text-amber-600" />
           </div>
-          <p className="mt-1 text-[11px] text-slate-400">
+          <p className="mt-1 text-[11px] text-slate-500">
             {metrics.expiringSoon.length} products within {state.pricingRules.expiryAlertWindowDays}d expiry
           </p>
         </PanelCard>
 
         <PanelCard>
-          <p className="text-xs font-medium text-slate-400">Estimated Inventory Risk</p>
+          <p className="text-xs font-medium text-slate-500">Estimated Inventory Risk</p>
           <div className="mt-2 flex items-center justify-between">
-            <span className="text-lg font-bold text-rose-400">
+            <span className="text-lg font-bold text-rose-700">
               {formatINR(metrics.estimatedInventoryRisk)}
             </span>
-            <TrendingDown className="h-5 w-5 text-rose-400" />
+            <TrendingDown className="h-5 w-5 text-rose-600" />
           </div>
-          <p className="mt-1 text-[11px] text-slate-400">
+          <p className="mt-1 text-[11px] text-slate-500">
             {metrics.pendingApprovals.length} pending approvals • {metrics.activeCheckouts.length} flagged checkouts
           </p>
         </PanelCard>
       </div>
 
       {/* Operational Summary Banner */}
-      <PanelCard className="border-blue-500/25 bg-gradient-to-r from-blue-950/35 via-[#0f1623] to-cyan-950/20">
+      <PanelCard className="border-sky-200 bg-sky-50/70">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <StatusBadge tone="blue">Daily AI Operational Summary</StatusBadge>
-              <span className="text-xs text-slate-400">
+              <span className="text-xs text-slate-600">
                 Updated {formatRelativeTime(state.auditLogs[0]?.createdAt ?? new Date().toISOString())}
               </span>
             </div>
-            <p className="text-sm text-slate-200">
+            <p className="text-sm text-slate-800">
               {metrics.outOfStock.length} SKU stocked out ({metrics.outOfStock.map((p) => p.sku).join(", ") || "None"}),{" "}
               {metrics.lowStock.length} SKUs below safety threshold, and{" "}
               {metrics.expiringSoon.length} perishable SKUs flagged for dynamic expiry pricing.{" "}
@@ -292,42 +293,77 @@ export default function OverviewPage() {
           </div>
           <Link href="/dashboard/approvals">
             <SecondaryButton type="button">
-              <ShieldAlert className="h-4 w-4 text-amber-400" />
+              <ShieldAlert className="h-4 w-4 text-amber-600" />
               Review {metrics.pendingApprovals.length} Approvals
             </SecondaryButton>
           </Link>
         </div>
       </PanelCard>
 
+      {/* Priority Monitored Inventory Product Photos */}
+      <PanelCard>
+        <div className="mb-3 flex items-center justify-between">
+          <div>
+            <h2 className="text-sm font-semibold text-slate-950">Monitored Store Catalog Photos</h2>
+            <p className="text-xs text-slate-500">Live inventory items tracked across store shelves & POS verification</p>
+          </div>
+          <Link href="/dashboard/inventory" className="text-xs font-medium text-sky-700 hover:text-sky-600">
+            All {state.products.length} SKUs →
+          </Link>
+        </div>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-6">
+          {state.products.slice(0, 6).map((prod) => (
+            <Link
+              key={prod.id}
+              href="/dashboard/inventory"
+              className="group flex flex-col items-center rounded-xl border border-slate-200 bg-white p-2.5 text-center transition hover:border-sky-300 hover:shadow-xs"
+            >
+              <Image
+                src={prod.imageUrl}
+                alt={prod.name}
+                width={96}
+                height={96}
+                unoptimized
+                className="h-20 w-20 object-contain transition group-hover:scale-105"
+              />
+              <p className="mt-2 line-clamp-1 text-xs font-semibold text-slate-900">{prod.name}</p>
+              <p className="font-mono text-[10px] font-medium text-sky-700">
+                {prod.availableQuantity} left • {formatINR(prod.sellingPrice)}
+              </p>
+            </Link>
+          ))}
+        </div>
+      </PanelCard>
+
       {/* 6 Visualizations Grid */}
       <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
         <PanelCard>
-          <h2 className="text-sm font-semibold text-slate-200">Inventory Units by Category</h2>
-          <p className="text-xs text-slate-400">Live store stock distribution</p>
+          <h2 className="text-sm font-semibold text-slate-950">Inventory Units by Category</h2>
+          <p className="text-xs text-slate-500">Live store stock distribution</p>
           <div className="mt-4 h-56">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={metrics.categoryChart}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                <XAxis dataKey="category" tick={{ fill: "#94a3b8", fontSize: 10 }} />
-                <YAxis tick={{ fill: "#94a3b8", fontSize: 11 }} />
-                <Tooltip contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155" }} />
-                <Bar dataKey="units" fill="#3b82f6" radius={[6, 6, 0, 0]} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                <XAxis dataKey="category" tick={{ fill: "#475569", fontSize: 10 }} />
+                <YAxis tick={{ fill: "#475569", fontSize: 11 }} />
+                <Tooltip contentStyle={{ backgroundColor: "#ffffff", borderColor: "#cbd5e1", color: "#0f172a", borderRadius: "0.75rem" }} />
+                <Bar dataKey="units" fill="#38bdf8" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </PanelCard>
 
         <PanelCard>
-          <h2 className="text-sm font-semibold text-slate-200">Stock Depletion Watchlist</h2>
-          <p className="text-xs text-slate-400">Available qty vs min threshold</p>
+          <h2 className="text-sm font-semibold text-slate-950">Stock Depletion Watchlist</h2>
+          <p className="text-xs text-slate-500">Available qty vs min threshold</p>
           <div className="mt-4 h-56">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={metrics.stockDepletion}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                <XAxis dataKey="sku" tick={{ fill: "#94a3b8", fontSize: 10 }} />
-                <YAxis tick={{ fill: "#94a3b8", fontSize: 11 }} />
-                <Tooltip contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155" }} />
-                <Bar dataKey="qty" name="Available" fill="#22d3ee" radius={[4, 4, 0, 0]} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                <XAxis dataKey="sku" tick={{ fill: "#475569", fontSize: 10 }} />
+                <YAxis tick={{ fill: "#475569", fontSize: 11 }} />
+                <Tooltip contentStyle={{ backgroundColor: "#ffffff", borderColor: "#cbd5e1", color: "#0f172a", borderRadius: "0.75rem" }} />
+                <Bar dataKey="qty" name="Available" fill="#0284c7" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="min" name="Threshold" fill="#f59e0b" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -335,19 +371,19 @@ export default function OverviewPage() {
         </PanelCard>
 
         <PanelCard>
-          <h2 className="text-sm font-semibold text-slate-200">Checkout Activity & Confidence</h2>
-          <p className="text-xs text-slate-400">Session totals (₹) across recent lanes</p>
+          <h2 className="text-sm font-semibold text-slate-950">Checkout Activity & Confidence</h2>
+          <p className="text-xs text-slate-500">Session totals (₹) across recent lanes</p>
           <div className="mt-4 h-56">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={metrics.checkoutActivity}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                <XAxis dataKey="session" tick={{ fill: "#94a3b8", fontSize: 11 }} />
-                <YAxis tick={{ fill: "#94a3b8", fontSize: 11 }} />
-                <Tooltip contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155" }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                <XAxis dataKey="session" tick={{ fill: "#475569", fontSize: 11 }} />
+                <YAxis tick={{ fill: "#475569", fontSize: 11 }} />
+                <Tooltip contentStyle={{ backgroundColor: "#ffffff", borderColor: "#cbd5e1", color: "#0f172a", borderRadius: "0.75rem" }} />
                 <Area
                   type="monotone"
                   dataKey="amount"
-                  stroke="#10b981"
+                  stroke="#059669"
                   fill="#10b981"
                   fillOpacity={0.2}
                 />
@@ -357,18 +393,18 @@ export default function OverviewPage() {
         </PanelCard>
 
         <PanelCard>
-          <h2 className="text-sm font-semibold text-slate-200">Expiry Risk Windows</h2>
-          <p className="text-xs text-slate-400">SKUs grouped by days until expiry</p>
+          <h2 className="text-sm font-semibold text-slate-950">Expiry Risk Windows</h2>
+          <p className="text-xs text-slate-500">SKUs grouped by days until expiry</p>
           <div className="mt-4 h-56">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={metrics.expiryBuckets}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                <XAxis dataKey="window" tick={{ fill: "#94a3b8", fontSize: 11 }} />
-                <YAxis tick={{ fill: "#94a3b8", fontSize: 11 }} />
-                <Tooltip contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155" }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                <XAxis dataKey="window" tick={{ fill: "#475569", fontSize: 11 }} />
+                <YAxis tick={{ fill: "#475569", fontSize: 11 }} />
+                <Tooltip contentStyle={{ backgroundColor: "#ffffff", borderColor: "#cbd5e1", color: "#0f172a", borderRadius: "0.75rem" }} />
                 <Bar dataKey="count" name="SKUs" radius={[6, 6, 0, 0]}>
                   {metrics.expiryBuckets.map((_, index) => (
-                    <Cell key={index} fill={index === 0 ? "#ef4444" : index === 1 ? "#f59e0b" : "#3b82f6"} />
+                    <Cell key={index} fill={index === 0 ? "#ef4444" : index === 1 ? "#f59e0b" : "#38bdf8"} />
                   ))}
                 </Bar>
               </BarChart>
@@ -377,24 +413,24 @@ export default function OverviewPage() {
         </PanelCard>
 
         <PanelCard>
-          <h2 className="text-sm font-semibold text-slate-200">Dynamic Discount Activity</h2>
-          <p className="text-xs text-slate-400">Recommended markdown % by SKU</p>
+          <h2 className="text-sm font-semibold text-slate-950">Dynamic Discount Activity</h2>
+          <p className="text-xs text-slate-500">Recommended markdown % by SKU</p>
           <div className="mt-4 h-56">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={metrics.discountActivity}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
-                <XAxis dataKey="sku" tick={{ fill: "#94a3b8", fontSize: 10 }} />
-                <YAxis tick={{ fill: "#94a3b8", fontSize: 11 }} />
-                <Tooltip contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155" }} />
-                <Bar dataKey="discountPct" name="Discount %" fill="#a855f7" radius={[6, 6, 0, 0]} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
+                <XAxis dataKey="sku" tick={{ fill: "#475569", fontSize: 10 }} />
+                <YAxis tick={{ fill: "#475569", fontSize: 11 }} />
+                <Tooltip contentStyle={{ backgroundColor: "#ffffff", borderColor: "#cbd5e1", color: "#0f172a", borderRadius: "0.75rem" }} />
+                <Bar dataKey="discountPct" name="Discount %" fill="#0284c7" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </PanelCard>
 
         <PanelCard>
-          <h2 className="text-sm font-semibold text-slate-200">Agent Tool Execution Distribution</h2>
-          <p className="text-xs text-slate-400">Deterministic tools invoked across runs</p>
+          <h2 className="text-sm font-semibold text-slate-950">Agent Tool Execution Distribution</h2>
+          <p className="text-xs text-slate-500">Deterministic tools invoked across runs</p>
           <div className="mt-4 h-56">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -411,7 +447,7 @@ export default function OverviewPage() {
                     <Cell key={idx} fill={CHART_COLORS[idx % CHART_COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip contentStyle={{ backgroundColor: "#0f172a", borderColor: "#334155" }} />
+                <Tooltip contentStyle={{ backgroundColor: "#ffffff", borderColor: "#cbd5e1", color: "#0f172a", borderRadius: "0.75rem" }} />
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -422,11 +458,11 @@ export default function OverviewPage() {
       <div className="grid gap-5 lg:grid-cols-2">
         <PanelCard>
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="flex items-center gap-2 text-sm font-semibold text-slate-100">
-              <Activity className="h-4 w-4 text-cyan-400" />
+            <h2 className="flex items-center gap-2 text-sm font-semibold text-slate-950">
+              <Activity className="h-4 w-4 text-sky-600" />
               Recent Autonomous Agent Actions
             </h2>
-            <Link href="/dashboard/timeline" className="text-xs text-cyan-400 hover:text-cyan-300">
+            <Link href="/dashboard/timeline" className="text-xs font-medium text-sky-700 hover:text-sky-600">
               Full timeline →
             </Link>
           </div>
@@ -434,11 +470,11 @@ export default function OverviewPage() {
             {state.auditLogs.slice(0, 6).map((log) => (
               <div
                 key={log.id}
-                className="flex items-start justify-between gap-3 rounded-lg border border-slate-800/80 bg-slate-900/60 px-3 py-2.5"
+                className="flex items-start justify-between gap-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5"
               >
                 <div className="min-w-0">
-                  <p className="text-xs font-medium text-slate-100">{log.summary}</p>
-                  <p className="mt-0.5 text-[11px] text-slate-400">
+                  <p className="text-xs font-medium text-slate-900">{log.summary}</p>
+                  <p className="mt-0.5 text-[11px] text-slate-500">
                     {log.eventCategory} • {log.actorRole}
                   </p>
                 </div>
@@ -453,11 +489,11 @@ export default function OverviewPage() {
 
         <PanelCard>
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="flex items-center gap-2 text-sm font-semibold text-slate-100">
-              <ScanBarcode className="h-4 w-4 text-emerald-400" />
+            <h2 className="flex items-center gap-2 text-sm font-semibold text-slate-950">
+              <ScanBarcode className="h-4 w-4 text-emerald-600" />
               Active & Recent Checkout Sessions
             </h2>
-            <Link href="/dashboard/checkout" className="text-xs text-cyan-400 hover:text-cyan-300">
+            <Link href="/dashboard/checkout" className="text-xs font-medium text-sky-700 hover:text-sky-600">
               Checkout monitor →
             </Link>
           </div>
@@ -465,18 +501,18 @@ export default function OverviewPage() {
             {state.checkoutSessions.slice(0, 6).map((chk) => (
               <div
                 key={chk.id}
-                className="flex items-center justify-between gap-3 rounded-lg border border-slate-800/80 bg-slate-900/60 px-3 py-2.5"
+                className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5"
               >
                 <div>
-                  <p className="text-xs font-semibold text-slate-100">
+                  <p className="text-xs font-semibold text-slate-900">
                     {chk.sessionCode} • {chk.cameraId}
                   </p>
-                  <p className="text-[11px] text-slate-400">
+                  <p className="text-[11px] text-slate-500">
                     {chk.cashierId} • Conf: {chk.visualConfidence}%
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-xs font-semibold text-slate-100">{formatINR(chk.totalAmount)}</p>
+                  <p className="text-xs font-semibold text-slate-950">{formatINR(chk.totalAmount)}</p>
                   <StatusBadge
                     tone={chk.status === "completed" ? "green" : chk.status === "paused_review" ? "amber" : "blue"}
                     className="mt-1"

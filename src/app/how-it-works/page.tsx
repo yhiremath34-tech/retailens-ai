@@ -43,8 +43,8 @@ const ARCHITECTURE_FLOW = [
 
 export default function HowItWorksPage() {
   return (
-    <div className="min-h-[100dvb] bg-[#090d14] text-slate-100">
-      <header className="border-b border-slate-800/80 bg-[#090d14]/90 backdrop-blur">
+    <div className="min-h-[100dvb] bg-white text-slate-900">
+      <header className="border-b border-slate-200 bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6">
           <Link href="/">
             <RetaiLensLogo />
@@ -52,14 +52,14 @@ export default function HowItWorksPage() {
           <div className="flex items-center gap-3">
             <Link
               href="/"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-800 px-3 py-1.5 text-xs font-medium text-slate-300 hover:bg-slate-800"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-sky-200 bg-sky-50/70 px-3 py-1.5 text-xs font-medium text-sky-950 hover:bg-sky-100"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               Back Home
             </Link>
             <Link
               href="/dashboard/demo"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-4 py-2 text-xs font-semibold text-white hover:bg-blue-500"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-sky-400 bg-sky-300 px-4 py-2 text-xs font-semibold text-slate-950 shadow-sm hover:bg-sky-400"
             >
               Run Demo Scenarios
               <ArrowRight className="h-3.5 w-3.5" />
@@ -70,14 +70,14 @@ export default function HowItWorksPage() {
 
       <main className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
         <div className="max-w-3xl">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-300">
-            <Bot className="h-3.5 w-3.5" />
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-sky-300 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-900">
+            <Bot className="h-3.5 w-3.5 text-sky-600" />
             Hackathon Judge Architecture Guide
           </span>
-          <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+          <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
             How RetaiLens AI Works
           </h1>
-          <p className="mt-3 text-base text-slate-300">
+          <p className="mt-3 text-base text-slate-600">
             RetaiLens AI is an autonomous agentic operations platform—not a passive dashboard or a
             Q&A chatbot. Every perception triggers validated reasoning, memory retrieval, deterministic
             tool execution, and human-governed approvals.
@@ -86,20 +86,20 @@ export default function HowItWorksPage() {
 
         {/* End-to-End Flow */}
         <section className="mt-12">
-          <h2 className="text-xl font-bold text-white">End-to-End Execution Pipeline</h2>
+          <h2 className="text-xl font-bold text-slate-950">End-to-End Execution Pipeline</h2>
           <div className="mt-6 flex flex-col items-center gap-3">
             {ARCHITECTURE_FLOW.map((node, idx) => (
               <div key={node.stage} className="w-full max-w-3xl">
-                <div className="rounded-xl border border-slate-800 bg-[#0f1623] p-4 shadow-sm">
+                <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="font-mono text-xs font-bold tracking-wider text-cyan-400">
+                    <span className="font-mono text-xs font-bold tracking-wider text-sky-700">
                       STAGE 0{idx + 1} • {node.stage}
                     </span>
                   </div>
-                  <p className="mt-1.5 text-sm text-slate-300">{node.detail}</p>
+                  <p className="mt-1.5 text-sm text-slate-700">{node.detail}</p>
                 </div>
                 {idx < ARCHITECTURE_FLOW.length - 1 && (
-                  <div className="flex justify-center py-1 text-blue-400/70">
+                  <div className="flex justify-center py-1 text-sky-500">
                     <ArrowDown className="h-5 w-5" />
                   </div>
                 )}
@@ -110,13 +110,13 @@ export default function HowItWorksPage() {
 
         {/* Traditional vs RetaiLens Comparison */}
         <section className="mt-14">
-          <h2 className="text-xl font-bold text-white">
+          <h2 className="text-xl font-bold text-slate-950">
             Traditional Retail Software vs. RetaiLens AI
           </h2>
           <div className="mt-6 grid gap-6 md:grid-cols-2">
-            <div className="rounded-2xl border border-rose-500/20 bg-[#0f1623] p-6">
-              <h3 className="text-base font-bold text-rose-300">Traditional Retail Software</h3>
-              <ul className="mt-4 space-y-3 text-sm text-slate-300">
+            <div className="rounded-2xl border border-rose-200 bg-rose-50/40 p-6">
+              <h3 className="text-base font-bold text-rose-800">Traditional Retail Software</h3>
+              <ul className="mt-4 space-y-3 text-sm text-slate-700">
                 {[
                   "Reactive — managers discover stockouts hours too late",
                   "Manual monitoring across disconnected CCTV and POS tools",
@@ -125,16 +125,16 @@ export default function HowItWorksPage() {
                   "Limited historical memory for recurring SKU velocity surges",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
-                    <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-rose-400" />
+                    <XCircle className="mt-0.5 h-4 w-4 shrink-0 text-rose-600" />
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className="rounded-2xl border border-emerald-500/30 bg-[#0f1623] p-6">
-              <h3 className="text-base font-bold text-emerald-300">RetaiLens AI</h3>
-              <ul className="mt-4 space-y-3 text-sm text-slate-200">
+            <div className="rounded-2xl border border-emerald-200 bg-emerald-50/40 p-6">
+              <h3 className="text-base font-bold text-emerald-900">RetaiLens AI</h3>
+              <ul className="mt-4 space-y-3 text-sm text-slate-800">
                 {[
                   "Proactive — detects low shelf occupancy and expiry risk early",
                   "Automated CV + POS cross-verification at checkout lanes",
@@ -144,7 +144,7 @@ export default function HowItWorksPage() {
                   "Human-controlled sensitive actions via Store Manager Approval Center",
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" />
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
                     <span>{item}</span>
                   </li>
                 ))}

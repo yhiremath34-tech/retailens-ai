@@ -64,15 +64,15 @@ export function ModalDialog({
       }}
       className="w-full"
     >
-      <div className="flex items-center justify-between border-b border-slate-800 px-5 py-4">
-        <h2 id={titleId} className="text-base font-semibold text-slate-100">
+      <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
+        <h2 id={titleId} className="text-base font-semibold text-slate-900">
           {title}
         </h2>
         <button
           type="button"
           onClick={() => ref.current?.close()}
           aria-label="Close modal"
-          className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800 hover:text-slate-100"
+          className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-900"
         >
           <X className="h-4 w-4" />
         </button>

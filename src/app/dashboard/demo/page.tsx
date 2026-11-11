@@ -212,14 +212,14 @@ export default function DemoCenterPage() {
           <PanelCard
             key={sc.key}
             className={`flex flex-col justify-between space-y-4 ${
-              activeKey === sc.key ? "border-cyan-500/60 bg-cyan-950/15" : ""
+              activeKey === sc.key ? "border-sky-400 bg-sky-50/70" : ""
             }`}
           >
             <div className="space-y-2">
               <StatusBadge tone="blue">{sc.badge}</StatusBadge>
-              <h2 className="text-base font-bold text-white">{sc.title}</h2>
-              <p className="text-xs leading-relaxed text-slate-300">{sc.desc}</p>
-              <p className="rounded-lg border border-slate-800 bg-slate-900/70 p-2 text-[11px] text-emerald-300">
+              <h2 className="text-base font-bold text-slate-950">{sc.title}</h2>
+              <p className="text-xs leading-relaxed text-slate-700">{sc.desc}</p>
+              <p className="rounded-lg border border-emerald-200 bg-emerald-50 p-2 text-[11px] text-emerald-900">
                 <strong>Expected Result:</strong> {sc.expected}
               </p>
             </div>
@@ -239,10 +239,10 @@ export default function DemoCenterPage() {
       {/* Playback Controls & Live Trace */}
       {runData && (
         <PanelCard className="space-y-5">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-4">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 pb-4">
             <div>
-              <h2 className="text-sm font-bold text-white">{runData.objective}</h2>
-              <p className="text-xs text-slate-400">
+              <h2 className="text-sm font-bold text-slate-950">{runData.objective}</h2>
+              <p className="text-xs text-slate-600">
                 Showing step {visibleCount} of {totalSteps} • {toolData.length} real backend tool calls persisted
               </p>
             </div>
@@ -268,14 +268,14 @@ export default function DemoCenterPage() {
                 Replay
               </SecondaryButton>
 
-              <div className="flex items-center rounded-lg border border-slate-700 bg-slate-900 p-0.5 text-xs">
+              <div className="flex items-center rounded-lg border border-sky-200 bg-sky-50/70 p-0.5 text-xs">
                 {([0.5, 1, 2] as const).map((s) => (
                   <button
                     key={s}
                     type="button"
                     onClick={() => setSpeed(s)}
                     className={`rounded-md px-2.5 py-1 font-mono ${
-                      speed === s ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"
+                      speed === s ? "bg-sky-300 font-semibold text-slate-950" : "text-slate-600 hover:text-slate-950"
                     }`}
                   >
                     {s}x
@@ -290,13 +290,13 @@ export default function DemoCenterPage() {
             {runData.steps.slice(0, visibleCount).map((step, i) => (
               <div
                 key={step.id}
-                className="rounded-xl border border-slate-800 bg-slate-900/75 p-3.5 text-xs"
+                className="rounded-xl border border-slate-200 bg-slate-50 p-3.5 text-xs"
               >
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <span className="font-mono text-slate-500">0{i + 1}</span>
                     <StatusBadge tone="cyan">{step.phase}</StatusBadge>
-                    <span className="font-semibold text-white">{step.title}</span>
+                    <span className="font-semibold text-slate-950">{step.title}</span>
                   </div>
                   <StatusBadge
                     tone={
@@ -310,21 +310,21 @@ export default function DemoCenterPage() {
                     {step.status}
                   </StatusBadge>
                 </div>
-                <p className="mt-1.5 text-slate-300">{step.detail}</p>
+                <p className="mt-1.5 text-slate-700">{step.detail}</p>
               </div>
             ))}
           </div>
 
           {/* Scenario A Receipt Output */}
           {visibleCount >= totalSteps && receipt && (
-            <div className="rounded-xl border border-emerald-500/35 bg-emerald-950/20 p-4 text-xs">
-              <p className="font-bold text-emerald-300">
+            <div className="rounded-xl border border-emerald-300 bg-emerald-50 p-4 text-xs">
+              <p className="font-bold text-emerald-900">
                 Simulated GST Receipt Generated: {receipt.sessionCode} • Total{" "}
                 {formatINR(receipt.totalAmount)}
               </p>
-              <p className="mt-1 text-slate-300">
+              <p className="mt-1 text-emerald-800">
                 Inventory deducted autonomously. View receipt details in{" "}
-                <Link href="/dashboard/checkout" className="text-cyan-400 underline">
+                <Link href="/dashboard/checkout" className="font-semibold text-sky-700 underline">
                   Checkout Monitor
                 </Link>
                 .
@@ -334,9 +334,9 @@ export default function DemoCenterPage() {
 
           {/* Scenario B/C Inline Human Approval Gate */}
           {visibleCount >= totalSteps && pendingApprovalId && (
-            <div className="rounded-xl border border-amber-500/40 bg-amber-950/25 p-4 text-xs space-y-3">
-              <div className="flex items-center gap-2 text-amber-200">
-                <ShieldAlert className="h-4 w-4 text-amber-400" />
+            <div className="space-y-3 rounded-xl border border-amber-300 bg-amber-50 p-4 text-xs">
+              <div className="flex items-center gap-2 text-amber-900">
+                <ShieldAlert className="h-4 w-4 text-amber-600" />
                 <strong>Human-in-the-Loop Gate Active:</strong>
                 <span>
                   Execution paused pending authorized Store Manager approval ({pendingApprovalId.slice(0, 8)}).
@@ -349,7 +349,7 @@ export default function DemoCenterPage() {
                       type="button"
                       disabled={loading}
                       onClick={() => decidePending("approved")}
-                      className="bg-emerald-600 hover:bg-emerald-500 text-xs"
+                      className="text-xs"
                     >
                       <CheckCircle2 className="h-3.5 w-3.5" />
                       Approve & Execute Now
@@ -358,7 +358,7 @@ export default function DemoCenterPage() {
                       type="button"
                       disabled={loading}
                       onClick={() => decidePending("rejected")}
-                      className="border-rose-500/40 text-rose-200 hover:bg-rose-500/20 text-xs"
+                      className="border-rose-300 bg-rose-50 text-rose-800 hover:bg-rose-100 text-xs"
                     >
                       <XCircle className="h-3.5 w-3.5" />
                       Reject Action
