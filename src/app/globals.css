@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --font-sans: "Plus Jakarta Sans", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --bg-canvas: #090d14;
+  --bg-surface: #0f1623;
+  --bg-elevated: #141d2e;
+  --border-subtle: rgba(148, 163, 184, 0.14);
+  --border-accent: rgba(59, 130, 246, 0.35);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --accent-blue: #3b82f6;
+  --accent-cyan: #22d3ee;
+  --color-scrollbar-track: #0b1019;
+  --color-scrollbar-thumb: #334155;
+  scrollbar-color: var(--color-scrollbar-thumb) var(--color-scrollbar-track);
+  scrollbar-width: thin;
+  accent-color: #3b82f6;
+}
+
+html,
+body {
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: var(--font-sans), "Inter", system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  overflow-x: clip;
+  min-block-size: 100dvb;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
+}
+
+/* Native <dialog> modal backdrop & scroll containment */
+dialog:modal {
+  overscroll-behavior: contain;
+  margin: auto;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 1rem;
+  background: #0f1623;
+  color: #f8fafc;
+  padding: 0;
+  max-inline-size: min(92vw, 34rem);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+}
+
+dialog::backdrop {
+  background: rgba(5, 8, 14, 0.78);
+  backdrop-filter: blur(4px);
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+/* Popover top-layer toast support + polyfill fallback */
+[popover]:is(:popover-open, .\:popover-open) {
+  display: block;
+}
+
+.toast-popover {
+  position: fixed;
+  inset-block-start: 1rem;
+  inset-inline-end: 1rem;
+  inset-block-end: auto;
+  inset-inline-start: auto;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  max-inline-size: min(92vw, 24rem);
+  inline-size: 100%;
+  overflow: visible;
+}
+
+/* Responsive data table wrapper with container query stacked cards */
+.table-wrapper {
+  overflow: auto;
+  max-inline-size: 100%;
+  container-type: inline-size;
+  scrollbar-gutter: stable;
+}
+
+.retail-table {
+  inline-size: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.retail-table thead th {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 2;
+  background: #111927;
+  text-wrap: balance;
+}
+
+@container (width < 640px) {
+  .retail-table-responsive,
+  .retail-table-responsive thead,
+  .retail-table-responsive tbody,
+  .retail-table-responsive tr,
+  .retail-table-responsive th,
+  .retail-table-responsive td {
+    display: block;
+  }
+
+  .retail-table-responsive thead {
+    display: none;
+  }
+
+  .retail-table-responsive tbody tr {
+    margin-block-end: 0.75rem;
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    background: rgba(17, 25, 39, 0.75);
+  }
+
+  .retail-table-responsive tbody td,
+  .retail-table-responsive tbody th {
+    padding: 0.35rem 0;
+    border: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+    text-align: end;
+  }
+
+  .retail-table-responsive tbody td[data-label]::before {
+    content: attr(data-label) ": ";
+    color: #94a3b8;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-align: start;
+  }
+}
+
+@media print {
+  aside,
+  header,
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+  }
+}
+

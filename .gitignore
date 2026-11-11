@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.*
+.venv/
+__pycache__/
+*.pyc
+
+# Next.js
+.next/
+out/
+build/
+dist/
+next-env.d.ts
+
+# Local runtime state & env
+.env
+.env*.local
+.data/
+*.tsbuildinfo
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+
