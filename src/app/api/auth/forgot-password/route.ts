@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
       const supabase = await createSupabaseServerClient();
       const origin = req.nextUrl.origin;
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${origin}/login`,
+        redirectTo: `${origin}/dashboard`,
       });
       if (error) {
         return NextResponse.json({ error: error.message }, { status: 400 });

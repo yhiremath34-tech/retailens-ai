@@ -7,6 +7,15 @@ import { DEMO_STORE_ID } from "@/lib/seed-data";
 
 export const SESSION_COOKIE_NAME = "retailens_session";
 
+export const DEFAULT_WORKSPACE_SESSION: UserSession = {
+  id: "00000000-0000-4000-8000-000000000002",
+  email: "manager@retailens.demo",
+  fullName: "Ananya Rao",
+  role: "store_manager",
+  storeId: DEMO_STORE_ID,
+  authMode: "simulation",
+};
+
 interface TokenPayload {
   id: string;
   email: string;
@@ -107,11 +116,11 @@ export async function getServerSession(): Promise<UserSession | null> {
         authMode: "supabase",
       };
     } catch {
-      return null;
+      return DEFAULT_WORKSPACE_SESSION;
     }
   }
 
-  return null;
+  return DEFAULT_WORKSPACE_SESSION;
 }
 
 export async function requireApiSession(

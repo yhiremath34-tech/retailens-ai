@@ -50,29 +50,23 @@ async function main() {
   const arch = await request("/how-it-works");
   assert(arch.status === 200, `Expected 200 on /how-it-works, got ${arch.status}`);
 
-  const loginPage = await request("/login");
-  assert(loginPage.status === 200, `Expected 200 on /login, got ${loginPage.status}`);
-
-  const regPage = await request("/register");
-  assert(regPage.status === 200, `Expected 200 on /register, got ${regPage.status}`);
-
-  const forgotPage = await request("/forgot-password");
-  assert(forgotPage.status === 200, `Expected 200 on /forgot-password, got ${forgotPage.status}`);
+  const removedLogin = await request("/login");
+  assert(removedLogin.status === 404, `Expected 404 on removed /login route, got ${removedLogin.status}`);
 
   const health = await request("/api/health");
   assert(health.status === 200 && health.json?.ok === true, "Health check failed");
   console.log("[verify-api] Public pages & /api/health OK:", health.json.modes);
 
-  // 2. Protected route checks when unauthenticated
-  const unauthApi = await request("/api/store/state");
-  assert(unauthApi.status === 401, `Expected 401 on unauth /api/store/state, got ${unauthApi.status}`);
-
-  const unauthDash = await request("/dashboard");
+  // 2. Direct dashboard access without login screen
+  const directState = await request("/api/store/state");
   assert(
-    unauthDash.status === 307 || unauthDash.status === 302 || unauthDash.status === 303,
-    `Expected redirect on unauth /dashboard, got ${unauthDash.status}`
+    directState.status === 200 && Array.isArray(directState.json?.state?.products),
+    `Expected 200 on direct /api/store/state, got ${directState.status}`
   );
-  console.log("[verify-api] Unauthenticated route protection OK");
+
+  const directDash = await request("/dashboard");
+  assert(directDash.status === 200, `Expected 200 on direct /dashboard, got ${directDash.status}`);
+  console.log("[verify-api] Direct open dashboard access OK");
 
   // 3. Cashier RBAC enforcement (should be denied admin/approval mutations with 403)
   const cashierCookies = { value: "" };

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   Activity,
   BarChart3,
@@ -13,8 +13,8 @@ import {
   ClipboardList,
   FlaskConical,
   HelpCircle,
+  Home,
   LayoutDashboard,
-  LogOut,
   Menu,
   Package,
   ScanBarcode,
@@ -49,18 +49,11 @@ const NAV_ITEMS = [
 
 export function DashboardShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const router = useRouter();
   const { state, session, modes } = useStoreData();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const pendingApprovals =
     state?.approvalRequests.filter((a) => a.status === "pending").length ?? 0;
-
-  async function handleLogout() {
-    await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/login");
-    router.refresh();
-  }
 
   const sidebarContent = (
     <div className="flex h-full flex-col bg-white text-slate-800">
@@ -138,14 +131,14 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
           <HelpCircle className="h-4 w-4 text-sky-600" />
           How RetaiLens Works
         </Link>
-        <button
-          type="button"
-          onClick={handleLogout}
-          className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-rose-700 hover:bg-rose-50"
+        <Link
+          href="/"
+          onClick={() => setMobileOpen(false)}
+          className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs font-medium text-slate-600 hover:bg-sky-50 hover:text-slate-950"
         >
-          <LogOut className="h-4 w-4" />
-          Sign Out
-        </button>
+          <Home className="h-4 w-4 text-sky-600" />
+          Back to Storefront
+        </Link>
       </div>
     </div>
   );

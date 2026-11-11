@@ -80,10 +80,10 @@ export default function LandingPage() {
               Architecture
             </Link>
             <Link
-              href="/login"
+              href="/dashboard"
               className="text-sm font-medium text-slate-600 transition hover:text-slate-950"
             >
-              Sign In
+              Command Center
             </Link>
             <Link
               href="/dashboard/demo"
@@ -120,7 +120,7 @@ export default function LandingPage() {
 
             <div className="mt-8 flex flex-wrap items-center gap-3.5">
               <Link
-                href="/login?next=/dashboard/demo"
+                href="/dashboard/demo"
                 className="inline-flex min-h-[46px] items-center gap-2 rounded-xl border border-sky-400 bg-sky-300 px-6 py-3 text-sm font-semibold text-slate-950 shadow-sm transition hover:bg-sky-400"
               >
                 Launch Live Demo
@@ -172,7 +172,7 @@ export default function LandingPage() {
               </p>
             </div>
             <Link
-              href="/login?next=/dashboard/inventory"
+              href="/dashboard/inventory"
               className="inline-flex items-center gap-1.5 rounded-lg border border-sky-400 bg-sky-300 px-4 py-2 text-xs font-semibold text-slate-950 shadow-xs transition hover:bg-sky-400"
             >
               Inspect Full 22-SKU Inventory
@@ -401,7 +401,7 @@ export default function LandingPage() {
             <Link href="/how-it-works" className="hover:text-sky-700">
               How It Works
             </Link>
-            <Link href="/login" className="hover:text-sky-700">
+            <Link href="/dashboard" className="hover:text-sky-700">
               Command Center
             </Link>
           </div>
